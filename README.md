@@ -15,9 +15,10 @@
   + Output: trained model as `RFmodel.pickle.gz` in the current directory
 
 - testRF.py
+  + Usage: `python testRF.py $INPUT $OUT_FILE_NAME [skip_imputation]`
   + Input: testing data file (plus `RFmodel.pickle.gz` file in the current directory from `buildRF.py`)
-  + Output: test output result file (`test.tsv`)
+  + Output: test output result to $OUT_FILE_NAME
 
 - testRF.plot.py
-  + Input: test output file (`test.tsv` by default)
+  + Input: test output file
   + Output: test output histograms and precision-recall figures (`test.*.png`)

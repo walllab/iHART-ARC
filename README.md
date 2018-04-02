@@ -22,3 +22,8 @@
 - testRF.plot.py
   + Input: test output file
   + Output: test output histograms and precision-recall figures (`test.*.png`)
+
+
+- `RFmodel.pickle.gz`: random forest output file from `buildRF.py`
+
+- `test.input`: test input file for `testRF.py`

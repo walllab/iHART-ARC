@@ -24,6 +24,10 @@
   + Output: test output histograms and precision-recall figures (`test.*.png`)
 
 
+- recursive feature selection (step 3) takes >4 hrs on a 4 core processor
+
 - `RFmodel.pickle.gz`: random forest output file from `buildRF.py`
 
 - `test.input`: test input file for `testRF.py`
+
+- python3 requires parentheses around print statements

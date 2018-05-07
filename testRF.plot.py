@@ -91,7 +91,7 @@ def main():
 
     # make testing figures if there is "test.tsv" file in the current directory
     if not glob.glob(inputFile):
-        print "Cannot find %s file" %(inputFile)
+        print("Cannot find %s file" %(inputFile))
         sys.exit(1)
 
     data = pd.read_csv(inputFile, sep="\t")

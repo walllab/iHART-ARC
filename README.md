@@ -1,16 +1,23 @@
+- Tested on Python 2.7.13 and 3.6.4.
+  + Requires pandas, sklearn, scipy, and matplotlib packages
+  
 - trainRF.cv.py
+  + Usage: `python trainRF.cv.py $TRAIN_INPUT_FILE`
   + Input: training data file
   + Output: 10 fold cross-validation results (`fold01.tsv` ... `fold10.tsv`) in the current directory
 
 - trainRF.plot.py
-  + Input: full directory path where `fold01.tsv` ... files are stored
+  + Usage: `python trainRF.plot.py [$CV_OUTPUT_PATH]`
+  + Input: full directory path where `fold01.tsv` ... files are stored (default: current dir.)
   + Output: cross-validation result figures in the current directory (`train-*.png`)
 
 - trainRF.rfecv.py
+  + Usage: `python trainRF.rfecv.py $TRAIN_INPUT_FILE`
   + Input: training data file
   + Output: text output of RFECV and feature_importance, plus `rfecv.png` figure.
 
 - buildRF.py
+  + Usage: `python buildRF.py $TRAIN_INPUT_FILE`
   + Input: training data file
   + Output: trained model as `RFmodel.pickle.gz` in the current directory
 
@@ -20,14 +27,10 @@
   + Output: test output result to $OUT_FILE_NAME
 
 - testRF.plot.py
-  + Input: test output file
+  + Usage: `python testRF.plot.py [$TEST_OUTPUT_FILE]`
+  + Input: test output file (default: `test.tsv` in the current dir.)
   + Output: test output histograms and precision-recall figures (`test.*.png`)
 
-
-- recursive feature selection (step 3) takes >4 hrs on a 4 core processor
-
-- `RFmodel.pickle.gz`: random forest output file from `buildRF.py`
+- `RFmodel.pickle.gz`: random forest output file from `buildRF.py` (built with python2, so may not work with python3).
 
 - `test.input`: test input file for `testRF.py`
-
-- python3 requires parentheses around print statements

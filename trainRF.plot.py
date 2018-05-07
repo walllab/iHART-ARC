@@ -127,7 +127,7 @@ def get_scores_per_cutoff():
 def main():
     # make training figures if there are "fold*.tsv" files in the current directory
     if not glob.glob("./fold*.tsv"):
-        print "Cannot find fold*.tsv files in the current directory"
+        print("Cannot find fold*.tsv files in the current directory")
         sys.exit(1)
 
     draw_pr_curve()

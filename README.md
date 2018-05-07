@@ -27,7 +27,7 @@ ___
 - testRF.py
   + Usage: `python testRF.py $INPUT $OUT_FILE_NAME [skip_imputation]`
   + Input: testing data file (plus `RFmodel.pickle.gz` file in the current directory from `buildRF.py`)
-  + Output: test output result to $OUT_FILE_NAME
+  + Output: test output result to `$OUT_FILE_NAME`
 
 - testRF.plot.py
   + Usage: `python testRF.plot.py [$TEST_OUTPUT_FILE]`

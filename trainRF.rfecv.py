@@ -6,6 +6,9 @@ from sklearn.preprocessing     import LabelEncoder, Imputer
 from sklearn.ensemble          import RandomForestClassifier
 from sklearn.feature_selection import RFECV
 
+# By default, this script will use all available cores in the machine
+# It took about an hour to finish in a 16-core machine, with 50k variants input data.
+
 # Variant_ID and GIAB columns to drop(): 'CLASSIFICATION' will be removed separately
 col2Remove = ['Variant_ID','All.simplerepeatsnocov', 'Decoy.bed', 'Superdupsmerged_all_sort', 'Systematic.Sequencing.Errors',
               'VQSRv2.18_filterABQD_sorted','VQSRv2.18_filterAlign_sorted','VQSRv2.18_filterConflicting',

@@ -1,6 +1,7 @@
 - Tested on Python 2.7.13 and 3.6.4.
   + Requires pandas, sklearn, scipy, and matplotlib packages
-  
+
+
 - trainRF.cv.py
   + Usage: `python trainRF.cv.py $TRAIN_INPUT_FILE`
   + Input: training data file
@@ -30,6 +31,7 @@
   + Usage: `python testRF.plot.py [$TEST_OUTPUT_FILE]`
   + Input: test output file (default: `test.tsv` in the current dir.)
   + Output: test output histograms and precision-recall figures (`test.*.png`)
+
 
 - `RFmodel.pickle.gz`: random forest output file from `buildRF.py` (built with python2, so may not work with python3).
 

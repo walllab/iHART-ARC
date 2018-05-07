@@ -82,8 +82,8 @@ for index, c in enumerate(columns):
 if columns_with_na_numeric_and_other_mixed_values:
   assert False, 'WARNING, some columns have mixed values and NAs: ' + ', '.join(columns_with_na_numeric_and_other_mixed_values)
 
-print 'Imputing: ' + ', '.join(columns[index].column_name for index in columns_requiring_imputation)
-print 'These columns have only missing values: ' + ', '.join(columns[index].column_name for index in columns_with_only_missing_values)
+print('Imputing: ' + ', '.join(columns[index].column_name for index in columns_requiring_imputation))
+print('These columns have only missing values: ' + ', '.join(columns[index].column_name for index in columns_with_only_missing_values))
 
 with open(args.output_dir.rstrip('/') + '/' + output_filename, 'w') as output_filestream:
   with open(args.input_annotation) as f:

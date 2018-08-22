@@ -1,6 +1,6 @@
 README.md
 ======
-#Artifact Removal by Classifier (ARC):
+## Artifact Removal by Classifier (ARC):
 
 Goal/Purpose:
 Artifact Removal by Classifier (ARC) is a supervised random forest model designed to distinguish true rare de novo variants (RDNVs) from lymphoblastoid cell line (LCL) specific genetic aberrations or other types of artifacts, such as sequencing and mapping errors. 

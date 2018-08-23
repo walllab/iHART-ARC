@@ -93,6 +93,7 @@ Example of VCF file:
 **Recalculate ABHet for all RDNVs:**
 
  **Purpose of ABHet recalculation:**
+ 
  The ABHet annotation is not currently provided for indels by GATK. Using the ABHet formula (below), we manually calculate the ABHet value for all SNVs and indels. Critically, if your dataset includes duplicates or monozygotic twins, you should exclude one of the duplicates by providing a list of duplicate samples when recalculating ABHet. 
  
 Usage:

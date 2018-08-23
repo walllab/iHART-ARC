@@ -9,7 +9,7 @@ Artifact Removal by Classifier (ARC) is a supervised random forest model designe
 
 **Background/Overview:**
 
-ARC was developed and published as part of the iHART project; please reference our manuscript for full details. We trained ARC on RDNVs identified in 76 pairs of fully phase-able monozygotic (MZ) twins with whole-genome sequence (WGS) data derived from LCL DNA, using 48 features representing intrinsic genomic properties, (e.g., GC content and properties associated with de novo hotspots), sample specific properties (e.g., genome-wide number of de novo SNVs), signatures of transformation of peripheral B lymphocytes by Epstein-Barr virus (e.g., number of de novo SNVs in immunoglobulin genes), or variant properties (e.g., GATK variant metrics). We subsequently tested ARC on RDNVs identified in 17 fully phase-able whole blood (WB) and matched LCL samples with WGS data. The resulting random forest classifier achieved an area under the receiver operating characteristic (ROC) curve of 0.99 and 0.98 in the training and test set, respectively. We selected a conservative ARC score threshold (0.4) that achieved a minimum precision and recall rate of 0.9 and 0.8, respectively, across all 10-folds of the training set cross validation; and achieved a precision and recall rate of 0.9 and 0.8, respectively, in the test set.
+ARC was developed and published as part of the iHART project; please reference our manuscript for full details. We trained ARC on RDNVs identified in 76 pairs of fully phase-able monozygotic (MZ) twins with whole-genome sequence (WGS) data derived from LCL DNA, using 48 features representing intrinsic genomic properties, (e.g., GC content and properties associated with de novo hotspots), sample specific properties (e.g., genome-wide number of de novo SNVs), signatures of transformation of peripheral B lymphocytes by Epstein-Barr virus (e.g., number of de novo SNVs in immunoglobulin genes), or variant properties (e.g., GATK variant metrics). We subsequently tested ARC on RDNVs identified in 17 fully phase-able whole blood (WB) and matched LCL samples with WGS data. The resulting random forest classifier achieved an area under the receiver operating characteristic (ROC) curve of 0.99 and 0.98 in the training and test set, respectively. We selected a conservative ARC score threshold (0.4) that achieved a minimum precision and recall rate of &gt;0.9 and ~0.8, respectively, across all 10-folds of the training set cross validation; and achieved a precision and recall rate of &gt;0.9 and &gt;0.8, respectively, in the test set.
  
 **Pipelines:**
 
@@ -19,7 +19,7 @@ There are two pipelines required for ARC (both contained within this repository)
  
 **Assumptions made by the pipeline:**
 
-This pipeline assumes that you have Perl, Python, ANNOVAR, BEDTools, BCFtools, Gawk, and Reference Genome hs37d5 available on your system. Please follow the URLs provided below to download any resources you may need. Please note that ARC was only tested using the version of each resource listed below.
+This pipeline assumes that you have Perl, Python, ANNOVAR, BEDTools, BCFtools, Gawk, and Reference Genome human_g1k_v37 available on your system. Please follow the URLs provided below to download any resources you may need. Please note that ARC was only tested using the version of each resource listed below.
 * Perl:
 Tested on Perl version 5.10.1.
 The latest version of Perl (5.28.0) is available at https://www.perl.org/get.html.
@@ -54,14 +54,16 @@ The variants were identified using GATK (v3.2.2) and raw RDNVs were identified a
  cd ~/Documents/GitHub_ARC/Practice_Data
  *	We provide a small set of RDNVs (n = 25) as practice data. We recommend running both pipelines: the annotation pipeline followed by the classification pipeline, on these practice data before applying ARC to your own data. These practice data include two files: a list of RDNVs and a VCF.
 
+```
 ls ~/Documents/GitHub_ARC/Practice_Data
+```
 **Provide screen clipping of files in directory**
  
 1.	A tab delimited list of RDNVs (“RDNV flat file”). 
-•	The practice RDNV flat file is: iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file.db 
-•	The RDNV file should contain all identified de novo variants in all of your samples. 
-•	The required columns are: Chr, Position, Ref, Alt, child_id, Info, genotype, genotype_subfields, and subfield_format.
-•	Note: The pipeline does not support periods or other non-alphanumeric characters in child_id. 
+* The practice RDNV flat file is: iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file.db 
+*	The RDNV file should contain all identified de novo variants in all of your samples. 
+*	The required columns are: Chr, Position, Ref, Alt, child_id, Info, genotype, genotype_subfields, and subfield_format.
+*	Note: The pipeline does not support periods or other non-alphanumeric characters in child_id. 
  
 Example of RDNV flat file:
 
@@ -89,19 +91,25 @@ Example of VCF file:
 ```
 
 **Recalculate ABHet for all RDNVs:**
+
  **Purpose of ABHet recalculation:**
  The ABHet annotation is not currently provided for indels by GATK. Using the ABHet formula (below), we manually calculate the ABHet value for all SNVs and indels. Critically, if your dataset includes duplicates or monozygotic twins, you should exclude one of the duplicates by providing a list of duplicate samples when recalculating ABHet. 
-
  
 Usage:
+```
 python ~/Documents/Github_ARC/Scripts/calculate_abhet_collapsing_duplicates.py --vcf <vcf from which to calculate abhet> --output_dir <output_dir> [Optional: --variants, --samples_to_exclude_when_true] (The pipeline expects this to be "unrenamed PAR", i.e., sex chromosomes should be "X" and "Y".) (The pipeline expects this to be "unrenamed PAR", i.e., sex chromosomes should be "X" and "Y".)
-*	Options: 
+```
+Options: 
+  
 --variants: provide a tab separated: chrom, pos, ref, alt, comma-separated list of TRUE variants. If empty, will use all variants in VCF.
---samples_to_exclude_when_true: list of samples (e.g. WB or MZ_twin) to exclude when concordant = TRUE). Variants found in these samples will be excluded.
-- Note: manual_abhet will match adjusted_abhet for SNVs when no samples to exclude are listed. 
-Command:
-python ~/Documents/GitHub_ARC/Scripts/calculate_abhet_collapsing_duplicates.py –vcf ~/Documents/GitHub_ARC/Practice_Data/ iHART_25_denovo_variants_ARC_practice_data.vcf --output_dir ~/Documents/GitHub_ARC/Output/Annotation/ 
 
+--samples_to_exclude_when_true: list of samples (e.g. WB or MZ_twin) to exclude when concordant = TRUE). Variants found in these samples will be excluded.
+ * Note: manual_abhet will match adjusted_abhet for SNVs when no samples to exclude are listed. 
+
+Command:
+```
+python ~/Documents/GitHub_ARC/Scripts/calculate_abhet_collapsing_duplicates.py –vcf ~/Documents/GitHub_ARC/Practice_Data/ iHART_25_denovo_variants_ARC_practice_data.vcf --output_dir ~/Documents/GitHub_ARC/Output/Annotation/ 
+```
 *	Note: This script takes in one multi-sample VCF file with all chromosomes included. 
 
 Output:
@@ -116,30 +124,34 @@ chr        pos        snp_id        ref        alt        gatk_abhet        manu
  
 **Step 1: Make a version of the RDNV flat file that the pipeline understands**
 Usage:
+```
 bash ~/Documents/GitHub_ARC/Scripts/makeOwnFlatDb.sh custom_data <input: standard flat file> <output: pipeline-specific flat file>
-
+```
 Command: 
+```
 bash ~/Documents/GitHub_ARC/Scripts/makeOwnFlatDb.sh custom_data ~/Documents/GitHub_ARC/Practice_Data/iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file.db ~/Documents/GitHub_ARC/Output/Annotation/iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file_OwnFlatDb.db
-o	Use custom_data option to use your user-specified input files rather than those hard coded into script.
-
+ * Use custom_data option to use your user-specified input files rather than those hard coded into script.
+```
 Output:
-````
+```
 1        99034        T        G        AU1335302        GT:AB:AD:DP:GQ:PL        0/1:0.67:10,5:.:99:180,0,518        PASS;ABHet=0.694;ABHom=1;AC=2;AF=0;AN=4480;BaseQRankSum=1.49;DP=73656;ExcessHet=3.226;FS=0;InbreedingCoeff=-0.0075;MLEAC=2;MLEAF=0.0004378;MQ=52.6;MQ0=0;MQRankSum=0.225;NDA=5;QD=9.21;ReadPosRankSum=-1.091;SOR=0.523;VQSLOD=-4.97;VariantType=SNP;culprit=MQ;cytoBand=1p36.33;Func=ncRNA_intronic;Gene=RP11-34P13.7;genomicSuperDups=0.992727,chr1:235525;FATHMM_c=0.08231;FATHMM_nc=0.00333;CSQ=G|intron_variant&non_coding_transcript_variant|MODIFIER|RP11-34P13.7|ENSG00000238009|Transcript|ENST00000466430|lincRNA||2/3|ENST00000466430.1:n.264-6794A>C|||||||||-1|SNV|Clone_based_vega_gene||YES|||||||||||||||||||||||||||||||||||||||||
 1        12878589        GT        G        AU1905303        GT:AD:DP:GQ:PL        0/1:21,16:.:99:341,0,523        PASS;AC=1;AF=0;AN=4600;BaseQRankSum=-0.169;DP=66478;ExcessHet=3.0103;FS=2.937;InbreedingCoeff=-0.0001;MLEAC=1;MLEAF=0.0002133;MQ=58.02;MQ0=0;MQRankSum=-0.659;NDA=1;QD=7.51;ReadPosRankSum=0.751;SOR=1.197;VQSLOD=-1.155;VariantType=DELETION.NumRepetitions_6.EventLength_1.RepeatExpansion_T;culprit=FS;cytoBand=1p36.21;Func=intergenic;Gene=PRAMEF1,RP5-845O24.8;GeneDetail=21813,3959;genomicSuperDups=0.955807,chr1:13210222;CSQ=-|downstream_gene_variant|MODIFIER|RP5-845O24.8|ENSG00000228338|Transcript|ENST00000438401|lincRNA|||||||||||3959|-1|deletion|Clone_based_vega_gene||YES|||||||||||||||||||||||||||||||||||||||||
 3        194314892        C        CTGTCTG        AU0806302        GT:AD:DP:GQ:PL        0/1:9,5:.:99:222,0,402        PASS;AC=1;AF=0;AN=4582;BaseQRankSum=-0.413;DP=88579;ExcessHet=4.2252;FS=3.88;InbreedingCoeff=-0.0038;MLEAC=1;MLEAF=0.0002141;MQ=62.8;MQ0=0;MQRankSum=-0.945;NDA=2;NEGATIVE_TRAIN_SITE;QD=11.41;ReadPosRankSum=-0.083;SOR=1.508;VQSLOD=-0.9498;VariantType=INSERTION.NOVEL_6;culprit=FS;cytoBand=3q29;Func=intronic;Gene=TMEM44;CSQ=TGTCTG|intron_variant|MODIFIER|TMEM44|ENSG00000145014|Transcript|ENST00000392432|protein_coding||10/10|ENST00000392432.2:c.1318-5525_1318-5524insCAGACA|||||||||-1|insertion|HGNC|25120|YES|||CCDS54699.1|ENSP00000376227|TMM44_HUMAN|Q96I73_HUMAN|UPI00015E0940||||||||||||||||||||||||||||||||||
-````
+```
 
 Description:
 This script creates a database from the RDNV flat file. The first step in creating an RDNV file that the annotation pipeline understands, is to remove the PAR annotation from the X & Y chromosome variants if these variants are labeled with ‘PAR’. This script then extracts columns of interest from the RDNV flat file (Columns: Chr, Position, Ref, Alt, child_id, subfield_format, genotype: genotype_subfields, Info) and outputs a tab-delimited file with 8 columns. If these columns do not exist, the script simply skips over them and creates an output file without these columns. This output file will be referenced by the data_config.sh script in Step 4.
  
 **Step 2: Create a Variant_ID for each variant**
 Usage:
+```
 bash ~/Documents/GitHub_ARC/Scripts/makeAnnotationInputFileFromOwnFlatDb.sh <input: pipeline-specific flat file> <output: annotation input
 file>
-
+```
 Command:
+```
 bash ~/Documents/GitHub_ARC/Scripts/makeAnnotationInputFileFromOwnFlatDb.sh ~/Documents/GitHub_ARC/Output/Annotation/iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file_OwnFlatDb.db ~/Documents/GitHub_ARC/Output/Annotation/iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file_AnnotationInputFile.txt
- 
+```
 Output:
 ```
 1.99034.T.G.AU1335302        TRUE
@@ -153,12 +165,14 @@ This script outputs a tab delimited file with 2 columns, Variant_ID and Classifi
 
 **Step 3: Make a version of the ABHet file that the pipeline understands.**
 Usage:
+```
 bash ~/Documents/GitHub_ARC/Scripts/makeOwnABHetFile.sh <input: ABHet file with 9 columns and header> <output: pipeline-specific ABHet
 file>
-
+```
 Command: 
+```
 bash ~/Documents/GitHub_ARC/Scripts/makeOwnABHetFile.sh ~/Documents/GitHub_ARC/Output/Annotation/iHART_25_denovo_variants_ARC_practice_data _abhet_recalculation.txt ~/Documents/GitHub_ARC/Output/Annotation/iHART_25_denovo_variants_ARC_practice_data _abhet_recalculation_OwnABHet.txt
- 
+```
 Output:
 ```
 1        99034        T        G        0.667
@@ -170,24 +184,25 @@ Description:
 This script reformats the recalculated ABHet file with 9 columns into an ABHet file with no header and 5 columns (chr, pos, ref, alt, and adjusted_abhet) that are tab delimited. This output file will be used in the data_config.sh script in Step 4.
  
 **Step 4: Manually input the paths for your pipeline-specific RDNV flat file (output of Step 1) and your pipeline-specific ABHet file (output of Step 3) into the data_config.sh script.**
-
+```
 vi ~/Documents/GitHub_ARC/Scripts/data_config.sh
-
-Screen clipping of file after changes:
- 
+```
+```
 FLAT=~/Documents/GitHub_ARC/Output/Annotation/iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file_OwnFlatDb.db
 ABHET=~/Documents/GitHub_ARC/Output/Annotation/iHART_25_denovo_variants_ARC_practice_data _abhet_recalculation_OwnABHet.txt
- 
+```
 Description:
 The purpose of this step is to change the data_config.sh script to have absolute paths to the pipeline formatted RDNV flat file and the pipeline formatted ABHet file. The data_config.sh script is called within the setAnnotationEnv.sh script which is part of the getAnnotation.sh script in Step 5. 
  
 **Step 5: Run the annotation pipeline**
 Usage:
-bash ~/Documents/GitHub_ARC/Scripts/getAnnotation.sh <input: annotation input file (output of #2 above)> custom_data (The literal string
-"custom_data" tells the pipeline to use this mode.)
-
+```
+bash ~/Documents/GitHub_ARC/Scripts/getAnnotation.sh <input: annotation input file (output of #2 above)> custom_data (The literal string "custom_data" tells the pipeline to use this mode.)
+```
 Command:
+```
 bash ~/Documents/GitHub_ARC/Scripts/getAnnotation.sh ~/Documents/GitHub_ARC/Output/Annotation/iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file_AnnotationInputFile.txt custom_data ~/Documents/GitHub_ARC/Output/Annotation/ 
+```
 *	Use custom_data mode so that your specific RDNV flat and ABHet file are used.
 *	Note: Be sure to provide absolute path to the annotation input file, since this absolute path is required by the getAnnotation.sh script. 
 *	Note: This produces many intermediate files as well as a final .out file in the output directory.
@@ -206,15 +221,21 @@ This script annotates the Variant ID file with all ARC features and outputs the 
 **Run the classification pipeline:**
 **Step 6: Run testRF.py**
 Usage:
+```
 python ~/Documents/GitHub_ARC/Scripts/testRF.py <input: .out file from annotation pipeline> <output: RDNV classification>
-
+```
 Command:
+```
 python ~/Documents/GitHub_ARC/Scripts/testRF.py ~/Documents/GitHub_ARC/Output/Annotation/iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file_AnnotationInputFile.txt.out ~/Documents/GitHub_ARC/Output/Classification/iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file_AnnotationInputFile_classification.txt
+```
 *	NB: Running this script on a large number of variants (we estimate >100,000 variants) can potentially crash your computer. If you think this might be an issue for you, use the preimputation.py script first and then run the above command with the skip_imputation argument.
 *	WARNING: As it stands, the sklearn.preprocessing.Imputer used by this script automatically drops columns when 100% of the values are missing (i.e., columns marked as only NA) and will cause errors (e.g., ValueError: Length mismatch: Expected axis has 47 elements, new values have 49 elements). It also struggles and will crash your machine if the input file is really big. If you run into this issue, use preimputation.py. 
-o	python preimputation.py --input_annotation <input: Annotated Variant ID file (from Step 5)> <output: preimputed .out file from annotation pipeline>
-*	Note: This script replaces NA values with the mean of all non-NA values within this column. If there are columns with only NA values, the script will report these columns (e.g., These columns have only missing values: ABHom, NDA, VQSLOD). These columns must then be replaced with an integer value of your choice (e.g., replace NA with 0) since they will be converted as “nan” in numpy and lead to an error (e.g., ValueError: Input contains NaN, infinity or a value too large for dtype('float32')).
-o	After running preimputation.py and replacing all values of NA, run testRF.py with the additional final argument skip_imputation.
+      ```
+      python preimputation.py --input_annotation <input: Annotated Variant ID file (from Step 5)> <output: preimputed .out file from annotation pipeline>
+      ```
+      *	Note: This script replaces NA values with the mean of all non-NA values within this column. If there are columns with only NA values, the script will report these columns (e.g., These columns have only missing values: ABHom, NDA, VQSLOD). These columns must then be replaced with an integer value of your choice (e.g., replace NA with 0) since they will be converted as “nan” in numpy and lead to an error (e.g., ValueError: Input contains NaN, infinity or a value too large for dtype('float32')).
+      
+       *	After running preimputation.py and replacing all values of NA, run testRF.py with the additional final argument skip_imputation.
  
 Output:
 ```
@@ -229,11 +250,13 @@ The script calculates the ARC score, labeled ARC_Score, for each variant and gen
  
 **Step 7: Recombine your Classification output file (output of Step 7) with your Variant ID file (output of Step 2).**
 Usage:
+```
 paste <(awk '{print $1}' <annotation input file>) <(awk 'BEGIN{OFS = '\t'; print "ARC_Score"} (NR != 1) {print $2}' <classification output file>) > <output file>
-
+```
 Command:
+```
 paste <(awk '{print $1}' ~/Documents/GitHub_ARC/Output/Annotation/iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file_AnnotationInputFile.txt.out) <(awk 'BEGIN{OFS = '\t'; print "ARC_Score"} (NR != 1) {print $2}' ~/Documents/GitHub_ARC/Output/Classification/iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file_AnnotationInputFile_classification.txt) > ~/Documents/GitHub_ARC/Output/Classification/iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file_AnnotationInputFile_classification_withVarID.txt
- 
+```
 Output:
 ```
 Variant_ID ARC_Score

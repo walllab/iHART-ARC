@@ -130,8 +130,9 @@ bash ~/Documents/GitHub_ARC/Scripts/makeOwnFlatDb.sh custom_data <input: standar
 Command: 
 ```
 bash ~/Documents/GitHub_ARC/Scripts/makeOwnFlatDb.sh custom_data ~/Documents/GitHub_ARC/Practice_Data/iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file.db ~/Documents/GitHub_ARC/Output/Annotation/iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file_OwnFlatDb.db
- * Use custom_data option to use your user-specified input files rather than those hard coded into script.
 ```
+ * Use custom_data option to use your user-specified input files rather than those hard coded into script.
+
 Output:
 ```
 1        99034        T        G        AU1335302        GT:AB:AD:DP:GQ:PL        0/1:0.67:10,5:.:99:180,0,518        PASS;ABHet=0.694;ABHom=1;AC=2;AF=0;AN=4480;BaseQRankSum=1.49;DP=73656;ExcessHet=3.226;FS=0;InbreedingCoeff=-0.0075;MLEAC=2;MLEAF=0.0004378;MQ=52.6;MQ0=0;MQRankSum=0.225;NDA=5;QD=9.21;ReadPosRankSum=-1.091;SOR=0.523;VQSLOD=-4.97;VariantType=SNP;culprit=MQ;cytoBand=1p36.33;Func=ncRNA_intronic;Gene=RP11-34P13.7;genomicSuperDups=0.992727,chr1:235525;FATHMM_c=0.08231;FATHMM_nc=0.00333;CSQ=G|intron_variant&non_coding_transcript_variant|MODIFIER|RP11-34P13.7|ENSG00000238009|Transcript|ENST00000466430|lincRNA||2/3|ENST00000466430.1:n.264-6794A>C|||||||||-1|SNV|Clone_based_vega_gene||YES|||||||||||||||||||||||||||||||||||||||||

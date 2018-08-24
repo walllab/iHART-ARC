@@ -1,4 +1,4 @@
-# Annotation Source Files README # <br>
+# Annotation Source Files README <br>
 
 **File:** Human_immunoglobulin_genes_HGNClist.txt <br>
 **Feature Name(s):** (1) Number of IG variants, (2) Immunoglobulin genes (IG) <br>

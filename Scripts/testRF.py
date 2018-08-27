@@ -5,6 +5,7 @@ import pickle, gzip
 from sklearn.preprocessing   import LabelEncoder, Imputer
 from sklearn.ensemble        import RandomForestClassifier
 from sklearn.metrics         import f1_score as f1, roc_auc_score as roc_auc
+import os 
 
 # Variant_ID and GIAB columns to drop(): 'CLASSIFICATION' will be removed separately
 col2Remove = ['Variant_ID','All.simplerepeatsnocov', 'Decoy.bed', 'Superdupsmerged_all_sort', 'Systematic.Sequencing.Errors',
@@ -38,11 +39,12 @@ class TestRandomForestModel:
             # Make test data(X) and test target variables(y) in numpy matrix format
             self.X, self.y = imp.drop('CLASSIFICATION', 1).as_matrix(), imp['CLASSIFICATION'].as_matrix()
 
-    def test_rf_model(self, outputFile):
-        clf = pickle.load(gzip.open('RFmodel.pickle.gz', 'rb'))
+    def test_rf_model(self, script_dir, outputFile):
+        clf = pickle.load(gzip.open(script_dir + '/' + 'RFmodel.pickle.gz', 'rb'))
+        #clf = pickle.load(gzip.open('/ifs/collabs/geschwind/programs/genomeTools/ML/variants_in_parents_alternative_random_forest_models/RFmodel_no_Num_SNV.pickle.gz', 'rb'))
 
         pred, prob = clf.predict(self.X), clf.predict_proba(self.X)[:,1]
-        pd.DataFrame({'y':self.y, 'prob':prob}).to_csv(outputFile, sep='\t') # save for figures
+        pd.DataFrame({'Classification':self.y, 'ARC_Score':prob}).to_csv(outputFile, sep='\t') # save for figures
         print('Test F1 score: %.5f, ROC_AUC score: %.5f' %(f1(self.y, pred), roc_auc(self.y, prob)))
 
 def main():
@@ -58,9 +60,10 @@ def main():
           print("Usage: python $THIS_SCRIPT INPUT_FILE_NAME OUTPUT_FILE_NAME ['skip_imputation']")
           sys.exit(1)
 
+    script_dir = os.path.dirname(os.path.abspath(__file__))
     rf = TestRandomForestModel()
     rf.make_test_input(inputFile=sys.argv[1], skip_imputation=skip)
-    rf.test_rf_model(outputFile=sys.argv[2])
+    rf.test_rf_model(script_dir, outputFile=sys.argv[2])
 
 if __name__ == "__main__":
     main()

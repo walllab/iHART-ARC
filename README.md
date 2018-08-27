@@ -226,6 +226,7 @@ python ~/Documents/GitHub_ARC/Scripts/testRF.py ~/Documents/GitHub_ARC/Output/An
 ```
 * NB: Running this script on a large number of variants (we estimate >100,000 variants) can potentially crash your computer. If you think this might be an issue for you, use the preimputation.py script first and then run the above command with the skip_imputation argument.
 * WARNING: As it stands, the sklearn.preprocessing.Imputer used by this script automatically drops columns when 100% of the values are missing (i.e., columns marked as only NA) and will cause errors (e.g., ValueError: Length mismatch: Expected axis has 47 elements, new values have 49 elements). It also struggles and will crash your machine if the input file is really big. If you run into this issue, use preimputation.py. <br>
+
       ```
       python preimputation.py --input_annotation <input: Annotated Variant ID file (from Step 5)> <output: preimputed .out file from annotation pipeline>
       ``` 

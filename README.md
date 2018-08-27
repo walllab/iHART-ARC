@@ -28,9 +28,6 @@ A link to the latest version of ANNOVAR (2018Apr16) is available at http://annov
 * BEDTools: 
 Tested on BEDTools version 2.20.1.
 Instructions on how to install the latest version of BEDTools (2.25.0) are available at https://bedtools.readthedocs.io/en/latest/content/installation.html. 
-* BCFTools:
-Tested on BCFtools version 1.2.
-The latest version of BCFtools package (1.9) is available at http://www.htslib.org/download/. 
 * Gawk:
 Tested on Gawk version 4.1.4.
 Instructions on how to get and extract the latest version of the gawk distribution (4.2.1) are available at https://www.gnu.org/software/gawk/manual/html_node/Getting.html#Getting.

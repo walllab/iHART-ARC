@@ -228,10 +228,11 @@ python ~/Documents/GitHub_ARC/Scripts/testRF.py ~/Documents/GitHub_ARC/Output/An
 * WARNING: As it stands, the sklearn.preprocessing.Imputer used by this script automatically drops columns when 100% of the values are missing (i.e., columns marked as only NA) and will cause errors (e.g., ValueError: Length mismatch: Expected axis has 47 elements, new values have 49 elements). It also struggles and will crash your machine if the input file is really big. If you run into this issue, use preimputation.py. <br>
       ```
       python preimputation.py --input_annotation <input: Annotated Variant ID file (from Step 5)> <output: preimputed .out file from annotation pipeline>
-      ```
+      ``` 
+      <br>
       + Note: This script replaces NA values with the mean of all non-NA values within this column. If there are columns with only NA values, the script will report these columns (e.g., These columns have only missing values: ABHom, NDA, VQSLOD). These columns must then be replaced with an integer value of your choice (e.g., replace NA with 0) since they will be converted as “nan” in numpy and lead to an error (e.g., ValueError: Input contains NaN, infinity or a value too large for dtype('float32')).
       
-       -  After running preimputation.py and replacing all values of NA, run testRF.py with the additional final argument skip_imputation.
+      + After running preimputation.py and replacing all values of NA, run testRF.py with the additional final argument skip_imputation.
  
 Output:
 ```

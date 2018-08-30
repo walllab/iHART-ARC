@@ -37,20 +37,37 @@ http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/, under filename h
 
 The variants were identified using GATK (v3.2.2) and raw RDNVs were identified as described in our manuscript. 
  
-**Setup/How to get started:**
- **Step 1: Get the code**
+**Setup/How to get started:** <br>
+ **Step 1: Get the code** <br>
  1. Click on the green "Clone or Download" button on the top right hand corner.
  2. Select "Download Zip".
  3. Move this zipped folder to your “Documents” folder.
+ 
+ **Step2: Download and Modify Additional Annotation Source files** <br>
+  **Download Signal from ENCODE/Caltech GM12878 RNA-seq**
+  1. Navigate to the UCSC Genome Browser directory that contains the downloadable files associated with this ENCODE composite track: http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeCaltechRnaSeq/
+  2. Download filename wgEncodeCaltechRnaSeqGm12878R2x75Th1014Il200SigRep1V4.bigWig (“ENODE file”)
+  3. Download UCSCs BigWigToWig Tool:
+   a. Navigate to the UCSC Genome Browser Software directory: http://hgdownload.soe.ucsc.edu/admin/exe/ 
+   b. Select your proper machine type
+   c. Download filename bigWigToWig  
+  4. Use the following command to convert the ENCODE file from bigWig format to wig format:
+  ```
+  ./bigWigToWig wgEncodeCaltechRnaSeqGm12878R2x75Th1014Il200SigRep1V4.bigWig wgEncodeCaltechRnaSeqGm12878R2x75Th1014Il200SigRep1V4.wig
+  ```
+	- Note: You may need to make bigWigtToWig executable by using the following command:
+	```
+	chmod +x ./bigWigToWig
+	```
+   5. Covert ENCODE file into a format that is appropriate for the pipeline
+   Usage:
+   ```
+   bash Make_EncodeFile.sh <input: ENCODE file> <output_dir: Output dir>
+   ```
 
- **Step 2: Get the practice data**
- cd ~/Documents/GitHub_ARC/Practice_Data
- *  We provide a small set of RDNVs (n = 25) as practice data. We recommend running both pipelines: the annotation pipeline followed by the classification pipeline, on these practice data before applying ARC to your own data. These practice data include two files: a list of RDNVs and a VCF.
+ **Overview of the practice data**
+ We provide a small set of RDNVs (n = 25) as practice data. We recommend running both pipelines: the annotation pipeline followed by the classification pipeline, on these practice data before applying ARC to your own data. These practice data include two files: a list of RDNVs and a VCF.
 
-```
-ls ~/Documents/GitHub_ARC/Practice_Data
-```
-**Provide screen clipping of files in directory** <br>
 1.  A tab delimited list of RDNVs (“RDNV flat file”). 
 * The practice RDNV flat file is: iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file.db 
 * The RDNV file should contain all identified de novo variants in all of your samples. 

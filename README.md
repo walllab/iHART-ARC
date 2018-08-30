@@ -55,26 +55,26 @@ The variants were identified using GATK (v3.2.2) and raw RDNVs were identified a
   ```
   ./bigWigToWig wgEncodeCaltechRnaSeqGm12878R2x75Th1014Il200SigRep1V4.bigWig wgEncodeCaltechRnaSeqGm12878R2x75Th1014Il200SigRep1V4.wig
   ``` 
- 	* Note: You may need to make bigWigtToWig executable by using the following command:
+ * Note: You may need to make bigWigtToWig executable by using the following command: <br>
 	```bash
 	chmod +x ./bigWigToWig
 	```
-   5. Covert ENCODE file into a format that is appropriate for the pipeline
+  5. Covert ENCODE file into a format that is appropriate for the pipeline
    Usage:
    ```
    bash Make_EncodeFile.sh <input: ENCODE file> <output_dir: Output dir>
    ```
-   **Download RepeatMasker sequence**
-	1. Navigate to the UCSC genome annotation database for the hg19 Human Reference Genome: http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/ 
-	2. Download filename rmsk.txt.gz (“RMSK file”)
-	3. Convert the RMSK file into a format that is appropriate for the pipeline
-	Usage:
-	```
-	bash Make_RMSK.sh <input: RMSK file> <output_dir: Output dir>
-	```
+   **Download RepeatMasker sequence** <br>
+   1. Navigate to the UCSC genome annotation database for the hg19 Human Reference Genome: http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/ 
+   2. Download filename rmsk.txt.gz (“RMSK file”)
+   3. Convert the RMSK file into a format that is appropriate for the pipeline
+   Usage:
+   ```
+   bash Make_RMSK.sh <input: RMSK file> <output_dir: Output dir>
+   ```
 	
- **Overview of the practice data**
- We provide a small set of RDNVs (n = 25) as practice data. We recommend running both pipelines: the annotation pipeline followed by the classification pipeline, on these practice data before applying ARC to your own data. These practice data include two files: a list of RDNVs and a VCF.
+**Overview of the practice data** <br>
+We provide a small set of RDNVs (n = 25) as practice data. We recommend running both pipelines: the annotation pipeline followed by the classification pipeline, on these practice data before applying ARC to your own data. These practice data include two files: a list of RDNVs and a VCF.
 
 1.  A tab delimited list of RDNVs (“RDNV flat file”). 
 * The practice RDNV flat file is: iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file.db 

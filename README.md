@@ -72,7 +72,7 @@ The variants were identified using GATK (v3.2.2) and raw RDNVs were identified a
    ```
    bash Make_RMSK.sh <input: RMSK file> <output_dir: Output dir>
    ```
-  
+   
 **Overview of the practice data** <br>
 We provide a small set of RDNVs (n = 25) as practice data. We recommend running both pipelines: the annotation pipeline followed by the classification pipeline, on these practice data before applying ARC to your own data. These practice data include two files: a list of RDNVs and a VCF.
 

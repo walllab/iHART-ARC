@@ -47,15 +47,16 @@ The variants were identified using GATK (v3.2.2) and raw RDNVs were identified a
   **Download Signal from ENCODE/Caltech GM12878 RNA-seq**
   1. Navigate to the UCSC Genome Browser directory that contains the downloadable files associated with this ENCODE composite track: http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeCaltechRnaSeq/
   2. Download filename wgEncodeCaltechRnaSeqGm12878R2x75Th1014Il200SigRep1V4.bigWig (“ENODE file”)
-  3. Download UCSCs BigWigToWig Tool:
-   a. Navigate to the UCSC Genome Browser Software directory: http://hgdownload.soe.ucsc.edu/admin/exe/ 
-   b. Select your proper machine type
-   c. Download filename bigWigToWig  
+  3. Download UCSCs BigWigToWig Tool: <br>
+   a. Navigate to the UCSC Genome Browser Software directory: http://hgdownload.soe.ucsc.edu/admin/exe/ <br>
+   b. Select your proper machine type <br>
+   c. Download filename bigWigToWig <br> 
   4. Use the following command to convert the ENCODE file from bigWig format to wig format:
   ```
   ./bigWigToWig wgEncodeCaltechRnaSeqGm12878R2x75Th1014Il200SigRep1V4.bigWig wgEncodeCaltechRnaSeqGm12878R2x75Th1014Il200SigRep1V4.wig
-  ```
-	- Note: You may need to make bigWigtToWig executable by using the following command:
+  ``` 
+
+	* Note: You may need to make bigWigtToWig executable by using the following command:
 	```
 	chmod +x ./bigWigToWig
 	```

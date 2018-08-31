@@ -1,7 +1,7 @@
 ## Questions and Answers to Common Pipeline Errors
 Below are common pipeline errors and their solution. Feel free to contact saarteag@g.ucla.edu to report any other errors you may run into. <br>
 
-* **Question**: Received ValueError: Length mismatch: Expected axis has "X" elements, new values have "Y" elements <br>
+* **Question**: Received ValueError: Length mismatch: Expected axis has "X" elements, new values have "Y" elements. <br>
 	- **Answer**: As it stands, the sklearn.preprocessing.Imputer used by this script automatically drops columns when 100% of the values are missing (i.e., columns marked as only NA). If you run into this issue, use preimputation.py. <br>
 
 * **Question**: Received ValueError: Input contains NaN, infinity or a value too large for dtype('float32') after using preimputation.py script. <br>

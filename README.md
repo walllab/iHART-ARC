@@ -138,7 +138,8 @@ chr        pos        snp_id        ref        alt        gatk_abhet        manu
 ```
 
 **Run the annotation pipeline: Steps 1-4 prepare your input files by reformatting to pipeline compatible formats.** <br>
-
+   + If you run into issues at any point in the annotation pipeline, please feel free to check out our Issues.md page for solutions.<br>
+   
 **Step 1: Make a version of the RDNV flat file that the pipeline understands** <br>
 Usage:
 ```

@@ -114,19 +114,15 @@ Example of VCF file:
  
 Usage:
 ```
-python ~/Documents/Github_ARC/Scripts/calculate_abhet_collapsing_duplicates.py --vcf <vcf from which to calculate abhet> --output_dir <output_dir> [Optional: --variants, --samples_to_exclude_when_true] (The pipeline expects this to be "unrenamed PAR", i.e., sex chromosomes should be "X" and "Y".) (The pipeline expects this to be "unrenamed PAR", i.e., sex chromosomes should be "X" and "Y".)
+python calculate_abhet_collapsing_duplicates.py --vcf <vcf from which to calculate abhet> --output_dir <output_dir> [Optional: --variants, --samples_to_exclude_when_true] (The pipeline expects this to be "unrenamed PAR", i.e., sex chromosomes should be "X" and "Y".) (The pipeline expects this to be "unrenamed PAR", i.e., sex chromosomes should be "X" and "Y".)
 ```
 Options: 
   
 --variants: provide a tab separated: chrom, pos, ref, alt, comma-separated list of TRUE variants. If empty, will use all variants in VCF.
 
 --samples_to_exclude_when_true: list of samples (e.g. WB or MZ_twin) to exclude when concordant = TRUE). Variants found in these samples will be excluded.
- * Note: manual_abhet will match adjusted_abhet for SNVs when no samples to exclude are listed. 
+ + Note: manual_abhet will match adjusted_abhet for SNVs when no samples to exclude are listed. 
 
-Command:
-```
-python ~/Documents/GitHub_ARC/Scripts/calculate_abhet_collapsing_duplicates.py –vcf ~/Documents/GitHub_ARC/Practice_Data/ iHART_25_denovo_variants_ARC_practice_data.vcf --output_dir ~/Documents/GitHub_ARC/Output/Annotation/ 
-```
 * Note: This script takes in one multi-sample VCF file with all chromosomes included. 
 
 Output:
@@ -143,11 +139,7 @@ chr        pos        snp_id        ref        alt        gatk_abhet        manu
 **Step 1: Make a version of the RDNV flat file that the pipeline understands** <br>
 Usage:
 ```
-bash ~/Documents/GitHub_ARC/Scripts/makeOwnFlatDb.sh <input: standard flat file> <output: pipeline-specific flat file>
-```
-Command: 
-```
-bash ~/Documents/GitHub_ARC/Scripts/makeOwnFlatDb.sh custom_data ~/Documents/GitHub_ARC/Practice_Data/iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file.db ~/Documents/GitHub_ARC/Output/Annotation/iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file_OwnFlatDb.db
+bash makeOwnFlatDb.sh <input: standard flat file> <output: pipeline-specific flat file>
 ```
 
 Output:
@@ -163,13 +155,10 @@ This script creates a database from the RDNV flat file. The first step in creati
 **Step 2: Create a Variant_ID for each variant** <br>
 Usage:
 ```
-bash ~/Documents/GitHub_ARC/Scripts/makeAnnotationInputFileFromOwnFlatDb.sh <input: pipeline-specific flat file> <output: annotation input
+bash makeAnnotationInputFileFromOwnFlatDb.sh <input: pipeline-specific flat file> <output: annotation input
 file>
 ```
-Command:
-```
-bash ~/Documents/GitHub_ARC/Scripts/makeAnnotationInputFileFromOwnFlatDb.sh ~/Documents/GitHub_ARC/Output/Annotation/iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file_OwnFlatDb.db ~/Documents/GitHub_ARC/Output/Annotation/iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file_AnnotationInputFile.txt
-```
+
 Output:
 ```
 1.99034.T.G.AU1335302        TRUE
@@ -184,13 +173,10 @@ This script outputs a tab delimited file with 2 columns, Variant_ID and Classifi
 **Step 3: Make a version of the ABHet file that the pipeline understands.** <br>
 Usage:
 ```
-bash ~/Documents/GitHub_ARC/Scripts/makeOwnABHetFile.sh <input: ABHet file with 9 columns and header> <output: pipeline-specific ABHet
+bash makeOwnABHetFile.sh <input: ABHet file with 9 columns and header> <output: pipeline-specific ABHet
 file>
 ```
-Command: 
-```
-bash ~/Documents/GitHub_ARC/Scripts/makeOwnABHetFile.sh ~/Documents/GitHub_ARC/Output/Annotation/iHART_25_denovo_variants_ARC_practice_data _abhet_recalculation.txt ~/Documents/GitHub_ARC/Output/Annotation/iHART_25_denovo_variants_ARC_practice_data _abhet_recalculation_OwnABHet.txt
-```
+
 Output:
 ```
 1        99034        T        G        0.667
@@ -215,11 +201,7 @@ The purpose of this step is to change the data_config.sh script to have absolute
 **Step 5: Run the annotation pipeline** <br>
 Usage:
 ```
-bash ~/Documents/GitHub_ARC/Scripts/getAnnotation.sh <input: annotation input file (output of #2 above)> custom_data (The literal string "custom_data" tells the pipeline to use this mode.)
-```
-Command:
-```
-bash ~/Documents/GitHub_ARC/Scripts/getAnnotation.sh ~/Documents/GitHub_ARC/Output/Annotation/iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file_AnnotationInputFile.txt custom_data ~/Documents/GitHub_ARC/Output/Annotation/ 
+bash getAnnotation.sh <input: annotation input file (output of #2 above)> <output_dir: output dir for annotation .out and intermediate files> custom_data (The literal string "custom_data" tells the pipeline to use this mode.)
 ```
 * Use custom_data mode so that your specific RDNV flat and ABHet file are used.
 * Note: Be sure to provide absolute path to the annotation input file, since this absolute path is required by the getAnnotation.sh script. 
@@ -242,17 +224,11 @@ Usage:
 ```
 python ~/Documents/GitHub_ARC/Scripts/testRF.py <input: .out file from annotation pipeline> <output: RDNV classification>
 ```
-Command:
-```
-python ~/Documents/GitHub_ARC/Scripts/testRF.py ~/Documents/GitHub_ARC/Output/Annotation/iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file_AnnotationInputFile.txt.out ~/Documents/GitHub_ARC/Output/Classification/iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file_AnnotationInputFile_classification.txt
-```
-* NB: Running this script on a large number of variants (we estimate >100,000 variants) can potentially crash your computer. If you think this might be an issue for you, use the preimputation.py script first and then run the above command with the skip_imputation argument.
-* WARNING: As it stands, the sklearn.preprocessing.Imputer used by this script automatically drops columns when 100% of the values are missing (i.e., columns marked as only NA) and will cause errors (e.g., ValueError: Length mismatch: Expected axis has 47 elements, new values have 49 elements). It also struggles and will crash your machine if the input file is really big. If you run into this issue, use preimputation.py. <br>
+
+* NB: Running this script on a large number of variants (we estimate >100,000 variants) can potentially crash your computer. If you think this might be an issue for you, use the preimputation.py script first and then run the above command with the skip_imputation argument. <br>
       ```
       python preimputation.py --input_annotation <input: Annotated Variant ID file (from Step 5)> <output: preimputed .out file from annotation pipeline>
       ``` 
-     * Note: This script replaces NA values with the mean of all non-NA values within this column. If there are columns with only NA values, the script will report these columns (e.g., These columns have only missing values: ABHom, NDA, VQSLOD). These columns must then be replaced with an integer value of your choice (e.g., replace NA with 0) since they will be converted as “nan” in numpy and lead to an error (e.g., ValueError: Input contains NaN, infinity or a value too large for dtype('float32')).
-
      * After running preimputation.py and replacing all values of NA, run testRF.py with the additional final argument skip_imputation.
  
 Output:
@@ -271,10 +247,7 @@ Usage:
 ```
 paste <(awk '{print $1}' <annotation input file>) <(awk 'BEGIN{OFS = '\t'; print "ARC_Score"} (NR != 1) {print $2}' <classification output file>) > <output file>
 ```
-Command:
-```
-paste <(awk '{print $1}' ~/Documents/GitHub_ARC/Output/Annotation/iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file_AnnotationInputFile.txt.out) <(awk 'BEGIN{OFS = '\t'; print "ARC_Score"} (NR != 1) {print $2}' ~/Documents/GitHub_ARC/Output/Classification/iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file_AnnotationInputFile_classification.txt) > ~/Documents/GitHub_ARC/Output/Classification/iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file_AnnotationInputFile_classification_withVarID.txt
-```
+
 Output:
 ```
 Variant_ID ARC_Score

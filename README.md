@@ -55,7 +55,7 @@ The variants were identified using GATK (v3.2.2) and raw RDNVs were identified a
   ```
   ./bigWigToWig wgEncodeCaltechRnaSeqGm12878R2x75Th1014Il200SigRep1V4.bigWig wgEncodeCaltechRnaSeqGm12878R2x75Th1014Il200SigRep1V4.wig
   ``` 
- * Note: You may need to make bigWigtToWig executable by using the following command: <br>
+ * Note: You may need to make bigWigToWig executable by using the following command: <br>
   ```
   chmod +x ./bigWigToWig
   ```

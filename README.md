@@ -59,7 +59,7 @@ The variants were identified using GATK (v3.2.2) and raw RDNVs were identified a
   ```
   chmod +x ./bigWigToWig
   ```
-  5. Covert ENCODE file into a format that is appropriate for the pipeline
+  5. Covert ENCODE file into a format that is appropriate for the pipeline <br>
    Usage:
    ```
    bash Make_EncodeFile.sh <input: ENCODE file> <output_dir: Output dir>
@@ -142,13 +142,12 @@ chr        pos        snp_id        ref        alt        gatk_abhet        manu
 **Step 1: Make a version of the RDNV flat file that the pipeline understands** <br>
 Usage:
 ```
-bash ~/Documents/GitHub_ARC/Scripts/makeOwnFlatDb.sh custom_data <input: standard flat file> <output: pipeline-specific flat file>
+bash ~/Documents/GitHub_ARC/Scripts/makeOwnFlatDb.sh <input: standard flat file> <output: pipeline-specific flat file>
 ```
 Command: 
 ```
 bash ~/Documents/GitHub_ARC/Scripts/makeOwnFlatDb.sh custom_data ~/Documents/GitHub_ARC/Practice_Data/iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file.db ~/Documents/GitHub_ARC/Output/Annotation/iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file_OwnFlatDb.db
 ```
- * Use custom_data option to use your user-specified input files rather than those hard coded into script.
 
 Output:
 ```

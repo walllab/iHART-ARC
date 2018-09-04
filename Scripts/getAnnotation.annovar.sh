@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" # Find script path, assuming all scripts are in the same directory
-source ${SRC}/setAnnotationEnv.sh $1;
+source ${SRC}/setAnnotationEnv.sh $1 $2;
 
 #--- Step 1. Annovar ---------------------------------------------------
 I1=${ODIR}/${TAG}.i.anv  # Input file for ANNOVAR
@@ -21,13 +21,15 @@ function annovar_in() {
 }
 function annovar_out() {
    ANV_BED="hg19_abpartsTCR.txt,hg19_DnaseUwdukeGm12878UniPk.txt,hg19_EncodeCaltechRnaSeqGm12878R2x75.txt,hg19_recombRate.txt,hg19_ReplicationTiming.txt,hg19_simpleRepeat.txt,hg19_rmsk.bed,hg19_genomicSuperDups.bed,hg19_top10multiallelic.txt";
-   ANV_OPT="--buildver hg19 --protocol bed,bed,bed,bed,bed,bed,bed,bed,bed --operation r,r,r,r,r,r,r,r,r --nastring NA --out $(pwd)/${TAG} -otherinfo -remove";    # need to include sample id, in order to count abparts per sample, later
-
+   ##CHANGED
+   # ANV_OPT="--buildver hg19 --protocol bed,bed,bed,bed,bed,bed,bed,bed,bed --operation r,r,r,r,r,r,r,r,r --nastring NA --out $(pwd)/${TAG} -otherinfo -remove";    # need to include sample id, in order to count abparts per sample, later
+   ANV_OPT="--buildver hg19 --protocol bed,bed,bed,bed,bed,bed,bed,bed,bed --operation r,r,r,r,r,r,r,r,r --nastring NA --out ${ODIR}/${TAG} -otherinfo -remove";
    $ANNOVAR $1 $ANV_DIR --bedfile $ANV_BED $ANV_OPT\
              --argument '-colsWanted 4,-colsWanted 4,-colsWanted 4,-colsWanted 4,-colsWanted 4,-colsWanted 4,-colsWanted 4,-colsWanted 4,-colsWanted 4' 2> $L1;  # Use 4th column value (only) in each bed file
 
    # Above ANNOVAR command will create this intermediate file.
-   T1=$(pwd)/${TAG}.hg19_multianno.txt && [[ ! -s $T1 ]] && echo2 "Cannot find ANNOVAR intermediate file $T1" && exit 1;
+   # T1=$(pwd)/${TAG}.hg19_multianno.txt && [[ ! -s $T1 ]] && echo2 "Cannot find ANNOVAR intermediate file $T1" && exit 1; ##CHANGED
+   T1=${ODIR}/${TAG}.hg19_multianno.txt && [[ ! -s $T1 ]] && echo2 "Cannot find ANNOVAR intermediate file $T1" && exit 1;
 
    $AWK 'BEGIN{ FS="\t"; OFS="\t"};
          function min(l) { gsub(/NA,/,"",l); gsub(/,NA/,"",l); split(l,v,","); m=v[1]; for(x in v){ if(m>v[x]){m=v[x]} }; return m};   # input list may have NA => remove
@@ -51,6 +53,9 @@ function annovar_out() {
    # Delete intermediate or log file
    /bin/rm $L1 $T1;
 }
+
+echo ${ODIR} "this is the directory"
+touch "$I1"
 
 [[ ! -s $I1 ]] && echo2 "$(date "+%T %D") Building ANNOVAR input:  $(basename $I1)" && annovar_in  "$1"  > "$I1";
 [[ ! -s $O1 ]] && echo2 "$(date "+%T %D") Building ANNOVAR output: $(basename $O1)" && annovar_out "$I1" > "$O1";

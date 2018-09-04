@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" # Find script path, assuming all scripts are in the same directory
-source ${SRC}/setAnnotationEnv.sh $1;
+source ${SRC}/setAnnotationEnv.sh $1 $2;
 
 #--- 4. Trinucleotide  ---------------------------------------------------
 I4=${ODIR}/${TAG}.i.tri

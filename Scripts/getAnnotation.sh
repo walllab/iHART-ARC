@@ -4,15 +4,14 @@ INPUT=$1;
 OPT=${2:-"train"}; # train, test, or rdnv for now
 
 SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" # Find script path, assuming all scripts are in the same directory
-ODIR=$3; #Output dir. Added
-
+ODIR=$3
 # Set Annotation data files etc.
-source ${SRC}/setAnnotationEnv.sh $1;
+source ${SRC}/setAnnotationEnv.sh $1 $2;
 
 # Get intermediate output files
-source ${SRC}/getAnnotation.annovar.sh $1;
-source ${SRC}/getAnnotation.gatk.sh    $1;
-source ${SRC}/getAnnotation.other.sh   $1;
+source ${SRC}/getAnnotation.annovar.sh $1 $2;
+source ${SRC}/getAnnotation.gatk.sh    $1 $2;
+source ${SRC}/getAnnotation.other.sh   $1 $2;
 
 [[ ! -s $O1 ]] && echo2 "Cannot find ANNOVAR output $O1"       && exit 1;
 [[ ! -s $O2 ]] && echo2 "Cannot find GATK output $O2"          && exit 1;

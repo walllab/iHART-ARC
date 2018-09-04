@@ -122,7 +122,7 @@ Example of VCF file:
  **Purpose of ABHet recalculation:** <br>
  The ABHet annotation is not currently provided for indels by GATK. Using the ABHet formula (below), we manually calculate the ABHet value for all SNVs and indels. Critically, if your dataset includes duplicates or monozygotic twins, you should exclude one of the duplicates by providing a list of duplicate samples when recalculating ABHet. <br> 
  
-   ![ABHet equation](http://latex.codecogs.com/gif.latex?ABHET%20%3D%20%5Cfrac%7B%20%5C%23REF%20%5C%20%5C%20reads%20%5C%20%5C%20from%20%5C%20%5C%20heterozygous%20%5C%20%5C%20samples%7D%7B%20%5C%23REF%20&plus;%20ALT%20%5C%20%5C%20reads%20%5C%20%5C%20from%20%5C%20%5C%20heterozygous%20%5C%20%5C%20samples%7D)
+   ![ABHet equation](http://latex.codecogs.com/gif.latex?ABHet%20%3D%20%5Cfrac%7B%20%5C%23REF%20%5C%20%5C%20reads%20%5C%20%5C%20from%20%5C%20%5C%20heterozygous%20%5C%20%5C%20samples%7D%7B%20%5C%23REF%20&plus;%20ALT%20%5C%20%5C%20reads%20%5C%20%5C%20from%20%5C%20%5C%20heterozygous%20%5C%20%5C%20samples%7D)
    
 Usage:
 ```

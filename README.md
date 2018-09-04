@@ -15,7 +15,7 @@ There are two pipelines required for ARC (both contained within this repository)
 2.  Classification
  
 **Assumptions made by the pipeline:** <br>
-This pipeline assumes that you have Perl, Python, ANNOVAR, BEDTools, BCFtools, Gawk, and Reference Genome human_g1k_v37 available on your system. Please follow the URLs provided below to download any resources you may need. Please note that ARC was only tested using the version of each resource listed below.
+This pipeline assumes that you have Perl, Python, ANNOVAR, BEDTools, Gawk, and Reference Genome human_g1k_v37 available on your system. Please follow the URLs provided below to download any resources you may need. Please note that ARC was only tested using the version of each resource listed below.
 * Perl:
 Tested on Perl version 5.10.1.
 The latest version of Perl (5.28.0) is available at https://www.perl.org/get.html.
@@ -76,11 +76,11 @@ The variants were identified using GATK (v3.2.2) and raw RDNVs were identified a
 **Overview of the practice data** <br>
 We provide a small set of RDNVs (n = 25) as practice data. We recommend running both pipelines: the annotation pipeline followed by the classification pipeline, on these practice data before applying ARC to your own data. These practice data include two files: a list of RDNVs and a VCF.
 
-1.  A tab delimited list of RDNVs (“RDNV flat file”). 
-* The practice RDNV flat file is: iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file.db 
+1.  A tab delimited list of RDNVs (“RDNV flat file”). <br>
+The practice RDNV flat file is: iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file.db 
 * The RDNV file should contain all identified de novo variants in all of your samples. 
-* The required columns are: Chr, Position, Ref, Alt, child_id, Info, genotype, genotype_subfields, and subfield_format.
-* Note: The pipeline does not support periods or other non-alphanumeric characters in child_id. 
+* The required columns are: Chr, Position, Ref, Alt, child_id, Info, genotype, genotype_subfields, and subfield_format. <br>
+  * Note: The pipeline does not support periods or other non-alphanumeric characters in child_id. 
  
 Example of RDNV flat file:
 
@@ -91,11 +91,11 @@ Chr        Position        Endpos        Ref        Alt        esp6500siv2_all  
 3        194314892        NA        C        CTGTCTG        NA        NA        NA        NA        NA        NA        NA        NA        NA        NA        intron_variant        TMEM44        AU0806        AU0806302        1        denovo        PASS;AC=1;AF=0;AN=4582;BaseQRankSum=-0.413;DP=88579;ExcessHet=4.2252;FS=3.88;InbreedingCoeff=-0.0038;MLEAC=1;MLEAF=0.0002141;MQ=62.8;MQ0=0;MQRankSum=-0.945;NDA=2;NEGATIVE_TRAIN_SITE;QD=11.41;ReadPosRankSum=-0.083;SOR=1.508;VQSLOD=-0.9498;VariantType=INSERTION.NOVEL_6;culprit=FS;cytoBand=3q29;Func=intronic;Gene=TMEM44;CSQ=TGTCTG|intron_variant|MODIFIER|TMEM44|ENSG00000145014|Transcript|ENST00000392432|protein_coding||10/10|ENST00000392432.2:c.1318-5525_1318-5524insCAGACA|||||||||-1|insertion|HGNC|25120|YES|||CCDS54699.1|ENSP00000376227|TMM44_HUMAN|Q96I73_HUMAN|UPI00015E0940||||||||||||||||||||||||||||||||||        0/1        9,5:.:99:222,0,402        GT:AD:DP:GQ:PL        0        0.0        NA        0.0        NA        0.867678958785        somatic        0        TMEM44        NA        96.84        68.34        76.25        34.77        -2.472364196        3.67048384751758e-05        0.567721303337738        0.432241991823787        0.0212399169818057        chr3:194308402-194354418        NA        NA        
 ```
  
-2.  A VCF file.
-* The practice VCF file is: iHART_25_denovo_variants_ARC_practice_data.vcf
+2.  A VCF file. <br>
+The practice VCF file is: iHART_25_denovo_variants_ARC_practice_data.vcf
 * This VCF should contain variants from all of your samples (a multi-sample jointly genotyped VCF).
 * This VCF should include variants from all chromosomes.
-* Again, please note that ARC expects hg19/b37 coordinates and that this VCF will include GATK variant information. 
+  * Again, please note that ARC expects hg19/b37 coordinates and that this VCF will include GATK variant information. 
 
 Example of VCF file:
 
@@ -168,7 +168,7 @@ Output:
 * Note: The Classification column is filled with FALSE everywhere except the first row in order to prevent the AUC calculation from crashing.
  
 Description:
-This script outputs a tab delimited file with 2 columns, Variant_ID and Classification. The Variant_ID is made up of the first 5 columns from the output of Step 1 delimited by periods rather than a tab (e.g., Chr.Pos.Ref.Alt.Child). The Classification column is filled with FALSE everywhere except the first row in order to prevent the AUC calculation from crashing (when developing the ARC model this column was used to assign true vs. false variant status in the training and the test set; when running the existing ARC model on new data this column is ignored). This output file (“Variant ID file”) will be used as the input for the getAnnotation.sh script in Step 5. 
+This script outputs a tab delimited file with 2 columns, Variant_ID and Classification. The Variant_ID is made up of the first 5 columns from the output of Step 1 delimited by periods rather than a tab (e.g., Chr.Pos.Ref.Alt.Child). The Classification column is ignored when running the existing ARC model on new data; when developing the ARC model this column was used to assign true vs. false variant status in the training and the test set. This output file (“Variant ID file”) will be used as the input for the getAnnotation.sh script in Step 5. 
 
 **Step 3: Make a version of the ABHet file that the pipeline understands.** <br>
 Usage:
@@ -192,18 +192,17 @@ This script reformats the recalculated ABHet file with 9 columns into an ABHet f
 vi ~/Documents/GitHub_ARC/Scripts/data_config.sh
 ```
 ```
-FLAT=~/Documents/GitHub_ARC/Output/Annotation/iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file_OwnFlatDb.db
-ABHET=~/Documents/GitHub_ARC/Output/Annotation/iHART_25_denovo_variants_ARC_practice_data _abhet_recalculation_OwnABHet.txt
+FLAT= # Absolute path to iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file_OwnFlatDb.db
+ABHET= # Absolute path to iHART_25_denovo_variants_ARC_practice_data _abhet_recalculation_OwnABHet.txt
 ```
 Description:
 The purpose of this step is to change the data_config.sh script to have absolute paths to the pipeline formatted RDNV flat file and the pipeline formatted ABHet file. The data_config.sh script is called within the setAnnotationEnv.sh script which is part of the getAnnotation.sh script in Step 5. 
- 
+
 **Step 5: Run the annotation pipeline** <br>
 Usage:
 ```
-bash getAnnotation.sh <input: annotation input file (output of #2 above)> <output_dir: output dir for annotation .out and intermediate files> custom_data (The literal string "custom_data" tells the pipeline to use this mode.)
+bash getAnnotation.sh <input: annotation input file (output of #2 above)> <output_dir: output dir for annotation .out and intermediate files>
 ```
-* Use custom_data mode so that your specific RDNV flat and ABHet file are used.
 * Note: Be sure to provide absolute path to the annotation input file, since this absolute path is required by the getAnnotation.sh script. 
 * Note: This produces many intermediate files as well as a final .out file in the output directory.
   
@@ -229,7 +228,6 @@ python ~/Documents/GitHub_ARC/Scripts/testRF.py <input: .out file from annotatio
       ```
       python preimputation.py --input_annotation <input: Annotated Variant ID file (from Step 5)> <output: preimputed .out file from annotation pipeline>
       ``` 
-     * After running preimputation.py and replacing all values of NA, run testRF.py with the additional final argument skip_imputation.
  
 Output:
 ```
@@ -240,7 +238,7 @@ Output:
 ```
 
 Description:
-The script calculates the ARC score, labeled ARC_Score, for each variant and generates a single indexed list of ARC scores. We recommend selecting a threshold of 0.4. We consider variants with an ARC score of 0.4 likely to be sequencing or cell line artifacts and a score of 0.4 to be true de novo variants. This script generates your “classification output file” which is used in Step 8.
+The script calculates the ARC score, labeled ARC_Score, for each variant and generates a single indexed list of ARC scores. We recommend selecting a threshold of 0.4. We consider variants with an ARC score of &lt;0.4 likely to be sequencing or cell line artifacts and a score of &ge;0.4 to be true de novo variants. This script generates your “classification output file” which is used in Step 8.
  
 **Step 7: Recombine your Classification output file (output of Step 7) with your Variant ID file (output of Step 2).** <br>
 Usage:

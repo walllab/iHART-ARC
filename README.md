@@ -54,7 +54,7 @@ The variants were identified using GATK (v3.2.2) and raw RDNVs were identified a
  git clone <URL>
  ```
  **Step 2: Download and Modify Additional Annotation Source files** <br>
-  **Download Signal from ENCODE/Caltech GM12878 RNA-seq**
+ * **Download Signal from ENCODE/Caltech GM12878 RNA-seq**
   1. Navigate to the UCSC Genome Browser directory that contains the downloadable files associated with this ENCODE composite track: http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeCaltechRnaSeq/
   2. Download filename wgEncodeCaltechRnaSeqGm12878R2x75Th1014Il200SigRep1V4.bigWig (“ENODE file”)
   3. Download UCSCs BigWigToWig Tool: <br>
@@ -74,7 +74,7 @@ The variants were identified using GATK (v3.2.2) and raw RDNVs were identified a
    ```
    bash Make_EncodeFile.sh <input: ENCODE file> <output_dir: Output dir>
    ```
-   **Download RepeatMasker sequence** <br>
+  * **Download RepeatMasker sequence** <br>
    1. Navigate to the UCSC genome annotation database for the hg19 Human Reference Genome: http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/ 
    2. Download filename rmsk.txt.gz (“RMSK file”)
    3. Convert the RMSK file into a format that is appropriate for the pipeline
@@ -247,7 +247,7 @@ Variant_ID        CLASSIFICATION        AbpartsTCR        DnaseUwdukeGm12878UniP
 Description:
 This script annotates the Variant ID file with all ARC features and outputs the final .out file along with other intermediate files in the output directory. The getAnnotation.sh script calls five other scripts: (1) setAnnotationEnv.sh, (2) getAnnotation.annovar.sh, (3) getAnnotation.gatk.sh, (4) getAnnotation.other.sh, and (5) getAnnotation.adjust.perSampleCounts.sh. It also recalculates the per-sample count columns as needed. This output file is the Annotated Variant ID file and is the input for Step 7. 
  
-**Run the classification pipeline:**
+**Run the classification pipeline:** <br>
 **Step 7: Run testRF.py.** <br>
 Usage:
 ```

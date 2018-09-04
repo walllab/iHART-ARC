@@ -39,14 +39,16 @@ The variants were identified using GATK (v3.2.2) and raw RDNVs were identified a
  
 **Setup/How to get started:** <br>
  **Step 1: Get the code** <br>
- 1. Click on the green "Clone or Download" button on the top right hand corner.
- Option 1: Download
- 2. Select "Download Zip".
- 3. Move this zipped folder to your desired folder.
- Option 2: Clone
- 2. Copy the URL provided.
- 3. Navigate to the directory where you would like to copy the repository using the command line.
- 4. Clone the repository using the following command:
+ 1. Click on the green "Clone or Download" button on the top right hand corner. <br>
+ 
+ **Option 1: Download** <br>
+ 2. Select "Download Zip". <br>
+ 3. Move this zipped folder to your desired folder. <br>
+ 
+ **Option 2: Clone** <br>
+ 2. Copy the URL provided. <br>
+ 3. Navigate to the directory where you would like to copy the repository using the command line. <br>
+ 4. Clone the repository using the following command: <br>
  ```
  git clone <URL>
  ```

@@ -40,9 +40,16 @@ The variants were identified using GATK (v3.2.2) and raw RDNVs were identified a
 **Setup/How to get started:** <br>
  **Step 1: Get the code** <br>
  1. Click on the green "Clone or Download" button on the top right hand corner.
+ Option 1: Download
  2. Select "Download Zip".
- 3. Move this zipped folder to your “Documents” folder.
- 
+ 3. Move this zipped folder to your desired folder.
+ Option 2: Clone
+ 2. Copy the URL provided.
+ 3. Navigate to the directory where you would like to copy the repository using the command line.
+ 4. Clone the repository using the following command:
+ ```
+ git clone <URL>
+ ```
  **Step2: Download and Modify Additional Annotation Source files** <br>
   **Download Signal from ENCODE/Caltech GM12878 RNA-seq**
   1. Navigate to the UCSC Genome Browser directory that contains the downloadable files associated with this ENCODE composite track: http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeCaltechRnaSeq/
@@ -136,7 +143,7 @@ chr        pos        snp_id        ref        alt        gatk_abhet        manu
 **Run the annotation pipeline: Steps 1-4 prepare your input files by reformatting to pipeline compatible formats.** <br>
    + If you run into issues at any point in the annotation pipeline, please feel free to check out our Issues.md page for solutions.<br>
    
-**Step 1: Make a version of the RDNV flat file that the pipeline understands** <br>
+**Step 1: Make a version of the RDNV flat file that the pipeline understands.** <br>
 Usage:
 ```
 bash makeOwnFlatDb.sh <input: standard flat file> <output: pipeline-specific flat file>
@@ -152,7 +159,7 @@ Output:
 Description:
 This script creates a database from the RDNV flat file. The first step in creating an RDNV file that the annotation pipeline understands, is to remove the PAR annotation from the X & Y chromosome variants if these variants are labeled with ‘PAR’. This script then extracts columns of interest from the RDNV flat file (Columns: Chr, Position, Ref, Alt, child_id, subfield_format, genotype: genotype_subfields, Info) and outputs a tab-delimited file with 8 columns. If these columns do not exist, the script simply skips over them and creates an output file without these columns. This output file will be referenced by the data_config.sh script in Step 4.
  
-**Step 2: Create a Variant_ID for each variant** <br>
+**Step 2: Create a Variant_ID for each variant.** <br>
 Usage:
 ```
 bash makeAnnotationInputFileFromOwnFlatDb.sh <input: pipeline-specific flat file> <output: annotation input
@@ -189,7 +196,7 @@ This script reformats the recalculated ABHet file with 9 columns into an ABHet f
  
 **Step 4: Manually input the paths for your pipeline-specific RDNV flat file (output of Step 1) and your pipeline-specific ABHet file (output of Step 3) into the data_config.sh script.**
 ```
-vi ~/Documents/GitHub_ARC/Scripts/data_config.sh
+vi data_config.sh
 ```
 ```
 FLAT= # Absolute path to iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file_OwnFlatDb.db
@@ -198,7 +205,17 @@ ABHET= # Absolute path to iHART_25_denovo_variants_ARC_practice_data _abhet_reca
 Description:
 The purpose of this step is to change the data_config.sh script to have absolute paths to the pipeline formatted RDNV flat file and the pipeline formatted ABHet file. The data_config.sh script is called within the setAnnotationEnv.sh script which is part of the getAnnotation.sh script in Step 5. 
 
-**Step 5: Run the annotation pipeline** <br>
+**Step 5: Manually assign variables in setAnnotationEnv.sh script, lines 12-20 with the absolute paths specified.**
+```
+vi setAnnotationEnv.sh
+```
+```
+Insert setAnnEnv.sh variables here.
+```
+Description:
+The purpose of this step is to change the setAnnotationEnv.sh script to have absolute paths to the necessary resources for the getAnnotation.sh script in Step 6.
+
+**Step 6: Run the annotation pipeline.** <br>
 Usage:
 ```
 bash getAnnotation.sh <input: annotation input file (output of #2 above)> <output_dir: output dir for annotation .out and intermediate files>
@@ -218,7 +235,7 @@ Description:
 This script annotates the Variant ID file with all ARC features and outputs the final .out file along with other intermediate files in the output directory. The getAnnotation.sh script calls five other scripts: (1) setAnnotationEnv.sh, (2) getAnnotation.annovar.sh, (3) getAnnotation.gatk.sh, (4) getAnnotation.other.sh, and (5) getAnnotation.adjust.perSampleCounts.sh. It also recalculates the per-sample count columns as needed. This output file is the Annotated Variant ID file and is the input for Step 7. 
  
 **Run the classification pipeline:**
-**Step 6: Run testRF.py** <br>
+**Step 7: Run testRF.py.** <br>
 Usage:
 ```
 python ~/Documents/GitHub_ARC/Scripts/testRF.py <input: .out file from annotation pipeline> <output: RDNV classification>
@@ -240,7 +257,7 @@ Output:
 Description:
 The script calculates the ARC score, labeled ARC_Score, for each variant and generates a single indexed list of ARC scores. We recommend selecting a threshold of 0.4. We consider variants with an ARC score of &lt;0.4 likely to be sequencing or cell line artifacts and a score of &ge;0.4 to be true de novo variants. This script generates your “classification output file” which is used in Step 8.
  
-**Step 7: Recombine your Classification output file (output of Step 7) with your Variant ID file (output of Step 2).** <br>
+**Step 8: Recombine your Classification output file (output of Step 7) with your Variant ID file (output of Step 2).** <br>
 Usage:
 ```
 paste <(awk '{print $1}' <annotation input file>) <(awk 'BEGIN{OFS = '\t'; print "ARC_Score"} (NR != 1) {print $2}' <classification output file>) > <output file>

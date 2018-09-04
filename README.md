@@ -117,8 +117,10 @@ Example of VCF file:
 **Recalculate ABHet for all RDNVs:** <br>
 
  **Purpose of ABHet recalculation:** <br>
- The ABHet annotation is not currently provided for indels by GATK. Using the ABHet formula (below), we manually calculate the ABHet value for all SNVs and indels. Critically, if your dataset includes duplicates or monozygotic twins, you should exclude one of the duplicates by providing a list of duplicate samples when recalculating ABHet. 
+ The ABHet annotation is not currently provided for indels by GATK. Using the ABHet formula (below), we manually calculate the ABHet value for all SNVs and indels. Critically, if your dataset includes duplicates or monozygotic twins, you should exclude one of the duplicates by providing a list of duplicate samples when recalculating ABHet. <br> 
  
+   ![ABHet equation](http://latex.codecogs.com/gif.latex?ABHET%20%3D%20%5Cfrac%7B%20%5C%23REF%20%5C%20%5C%20reads%20%5C%20%5C%20from%20%5C%20%5C%20heterozygous%20%5C%20%5C%20samples%7D%7B%20%5C%23REF%20&plus;%20ALT%20%5C%20%5C%20reads%20%5C%20%5C%20from%20%5C%20%5C%20heterozygous%20%5C%20%5C%20samples%7D)
+   
 Usage:
 ```
 python calculate_abhet_collapsing_duplicates.py --vcf <vcf from which to calculate abhet> --output_dir <output_dir> [Optional: --variants, --samples_to_exclude_when_true] (The pipeline expects this to be "unrenamed PAR", i.e., sex chromosomes should be "X" and "Y".) (The pipeline expects this to be "unrenamed PAR", i.e., sex chromosomes should be "X" and "Y".)
@@ -203,17 +205,25 @@ FLAT= # Absolute path to iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_fi
 ABHET= # Absolute path to iHART_25_denovo_variants_ARC_practice_data _abhet_recalculation_OwnABHet.txt
 ```
 Description:
-The purpose of this step is to change the data_config.sh script to have absolute paths to the pipeline formatted RDNV flat file and the pipeline formatted ABHet file. The data_config.sh script is called within the setAnnotationEnv.sh script which is part of the getAnnotation.sh script in Step 5. 
+The purpose of this step is to change the data_config.sh script to have absolute paths to the pipeline formatted RDNV flat file and the pipeline formatted ABHet file. The data_config.sh script is called within the setAnnotationEnv.sh script which is part of the getAnnotation.sh script in Step 6. 
 
 **Step 5: Manually assign variables in setAnnotationEnv.sh script, lines 12-20 with the absolute paths specified.**
 ```
 vi setAnnotationEnv.sh
 ```
 ```
-Insert setAnnEnv.sh variables here.
+IG_LIST="" #Absolute path to Human_immunoglobulin_genes_HGNClist.txt file provided in the Annotation_Source_Files directory
+GIAB="" #Absolute path to Genome_in_a_bottle_problematic_regions.bed file provided in the Annotation_Source_Files directory
+
+ANNOVAR="" #Absolute path path to your preferred perl installation followed by an absolute path to the table_annovar.pl script from ANNOVAR
+ANV_DIR=""; #Absolute path to Annotation_Source_Files directory
+AWK="" #Absolute path to Gawk software directory
+BED="" #Absolute path to BEDTools toolset directory 
+
+REFG="" # Absolute path to Human Reference Genome hs37d5 file
 ```
 Description:
-The purpose of this step is to change the setAnnotationEnv.sh script to have absolute paths to the necessary resources for the getAnnotation.sh script in Step 6.
+The purpose of this step is to change the setAnnotationEnv.sh script to have absolute paths to the necessary directories, tools, and files for the getAnnotation.sh script in Step 6.
 
 **Step 6: Run the annotation pipeline.** <br>
 Usage:

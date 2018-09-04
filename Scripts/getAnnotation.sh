@@ -4,7 +4,7 @@ INPUT=$1;
 OPT=${2:-"train"}; # train, test, or rdnv for now
 
 SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" # Find script path, assuming all scripts are in the same directory
-ODIR=$3
+
 # Set Annotation data files etc.
 source ${SRC}/setAnnotationEnv.sh $1 $2;
 

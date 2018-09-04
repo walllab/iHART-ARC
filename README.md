@@ -53,7 +53,7 @@ The variants were identified using GATK (v3.2.2) and raw RDNVs were identified a
  ```
  git clone <URL>
  ```
- **Step2: Download and Modify Additional Annotation Source files** <br>
+ **Step 2: Download and Modify Additional Annotation Source files** <br>
   **Download Signal from ENCODE/Caltech GM12878 RNA-seq**
   1. Navigate to the UCSC Genome Browser directory that contains the downloadable files associated with this ENCODE composite track: http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeCaltechRnaSeq/
   2. Download filename wgEncodeCaltechRnaSeqGm12878R2x75Th1014Il200SigRep1V4.bigWig (“ENODE file”)

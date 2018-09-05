@@ -7,7 +7,7 @@ README.md
 Artifact Removal by Classifier (ARC) is a supervised random forest model designed to distinguish true rare de novo variants (RDNVs) from lymphoblastoid cell line (LCL) specific genetic aberrations or other types of artifacts, such as sequencing and mapping errors. 
 
 **Background/Overview:** <br>
-ARC was developed and published as part of the iHART project; please reference our manuscript for full details. We trained ARC on RDNVs identified in 76 pairs of fully phase-able monozygotic (MZ) twins with whole-genome sequence (WGS) data derived from LCL DNA, using 48 features representing intrinsic genomic properties, (e.g., GC content and properties associated with de novo hotspots), sample specific properties (e.g., genome-wide number of de novo SNVs), signatures of transformation of peripheral B lymphocytes by Epstein-Barr virus (e.g., number of de novo SNVs in immunoglobulin genes), or variant properties (e.g., GATK variant metrics). We subsequently tested ARC on RDNVs identified in 17 fully phase-able whole blood (WB) and matched LCL samples with WGS data. The resulting random forest classifier achieved an area under the receiver operating characteristic (ROC) curve of 0.99 and 0.98 in the training and test set, respectively. We selected a conservative ARC score threshold (0.4) that achieved a minimum precision and recall rate of &gt;0.9 and ~0.8, respectively, across all 10-folds of the training set cross validation; and achieved a precision and recall rate of &gt;0.9 and &gt;0.8, respectively, in the test set.
+ARC was developed and published as part of the iHART project; please reference our [manuscript](https://www.biorxiv.org/content/early/2018/06/06/338855) for full details. We trained ARC on RDNVs identified in 76 pairs of fully phase-able monozygotic (MZ) twins with whole-genome sequence (WGS) data derived from LCL DNA, using 48 features representing intrinsic genomic properties, (e.g., GC content and properties associated with de novo hotspots), sample specific properties (e.g., genome-wide number of de novo SNVs), signatures of transformation of peripheral B lymphocytes by Epstein-Barr virus (e.g., number of de novo SNVs in immunoglobulin genes), or variant properties (e.g., GATK variant metrics). We subsequently tested ARC on RDNVs identified in 17 fully phase-able whole blood (WB) and matched LCL samples with WGS data. The resulting random forest classifier achieved an area under the receiver operating characteristic (ROC) curve of 0.99 and 0.98 in the training and test set, respectively. We selected a conservative ARC score threshold (0.4) that achieved a minimum precision and recall rate of &gt;0.9 and ~0.8, respectively, across all 10-folds of the training set cross validation; and achieved a precision and recall rate of &gt;0.9 and &gt;0.8, respectively, in the test set.
  
 **Pipelines:** <br>
 There are two pipelines required for ARC (both contained within this repository):
@@ -35,7 +35,7 @@ Instructions on how to get and extract the latest version of the gawk distributi
 Reference Genome hs37d5 is available at
 http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/, under filename human_g1k_v37.fasta.gz.
 
-The variants were identified using GATK (v3.2.2) and raw RDNVs were identified as described in our manuscript. 
+The variants were identified using GATK (v3.2.2) and raw RDNVs were identified as described in our [manuscript](https://www.biorxiv.org/content/early/2018/06/06/338855). 
  
 **Setup/How to get started:** <br>
  **Step 1: Get the code** <br>

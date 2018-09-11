@@ -4,10 +4,10 @@ README.md
 ## Artifact Removal by Classifier (ARC):
 
 **Goal/Purpose:** <br>
-Artifact Removal by Classifier (ARC) is a supervised random forest model designed to distinguish true rare de novo variants (RDNVs) from lymphoblastoid cell line (LCL) specific genetic aberrations or other types of artifacts, such as sequencing and mapping errors. 
+Artifact Removal by Classifier (ARC) is a supervised random forest model designed to distinguish true rare *de novo* variants (RDNVs) from lymphoblastoid cell line (LCL) specific genetic aberrations or other types of artifacts, such as sequencing and mapping errors. 
 
 **Background/Overview:** <br>
-ARC was developed and published as part of the iHART project; please reference our [manuscript](https://www.biorxiv.org/content/early/2018/06/06/338855) for full details. We trained ARC on RDNVs identified in 76 pairs of fully phase-able monozygotic (MZ) twins with whole-genome sequence (WGS) data derived from LCL DNA, using 48 features representing intrinsic genomic properties, (e.g., GC content and properties associated with de novo hotspots), sample specific properties (e.g., genome-wide number of de novo SNVs), signatures of transformation of peripheral B lymphocytes by Epstein-Barr virus (e.g., number of de novo SNVs in immunoglobulin genes), or variant properties (e.g., GATK variant metrics). We subsequently tested ARC on RDNVs identified in 17 fully phase-able whole blood (WB) and matched LCL samples with WGS data. The resulting random forest classifier achieved an area under the receiver operating characteristic (ROC) curve of 0.99 and 0.98 in the training and test set, respectively. We selected a conservative ARC score threshold (0.4) that achieved a minimum precision and recall rate of &gt;0.9 and ~0.8, respectively, across all 10-folds of the training set cross validation; and achieved a precision and recall rate of &gt;0.9 and &gt;0.8, respectively, in the test set.
+ARC was developed and published as part of the iHART project; please reference our [manuscript](https://www.biorxiv.org/content/early/2018/06/06/338855) for full details. We trained ARC on RDNVs identified in 76 pairs of fully phase-able monozygotic (MZ) twins with whole-genome sequence (WGS) data derived from LCL DNA, using 48 features representing intrinsic genomic properties, (e.g., GC content and properties associated with *de novo* hotspots), sample specific properties (e.g., genome-wide number of *de novo* SNVs), signatures of transformation of peripheral B lymphocytes by Epstein-Barr virus (e.g., number of *de novo* SNVs in immunoglobulin genes), or variant properties (e.g., GATK variant metrics). We subsequently tested ARC on RDNVs identified in 17 fully phase-able whole blood (WB) and matched LCL samples with WGS data. The resulting random forest classifier achieved an area under the receiver operating characteristic (ROC) curve of 0.99 and 0.98 in the training and test set, respectively. We selected a conservative ARC score threshold (0.4) that achieved a minimum precision and recall rate of &gt;0.9 and ~0.8, respectively, across all 10-folds of the training set cross validation; and achieved a precision and recall rate of &gt;0.9 and &gt;0.8, respectively, in the test set.
  
 **Pipelines:** <br>
 There are two pipelines required for ARC (both contained within this repository):
@@ -56,7 +56,7 @@ The variants were identified using GATK (v3.2.2) and raw RDNVs were identified a
  **Step 2: Download and Modify Additional Annotation Source files** <br>
   **Download Signal from ENCODE/Caltech GM12878 RNA-seq**
   1. Navigate to the UCSC Genome Browser directory that contains the downloadable files associated with this ENCODE composite track: http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeCaltechRnaSeq/
-  2. Download filename wgEncodeCaltechRnaSeqGm12878R2x75Th1014Il200SigRep1V4.bigWig (“ENODE file”)
+  2. Download filename wgEncodeCaltechRnaSeqGm12878R2x75Th1014Il200SigRep1V4.bigWig (“ENCODE file”)
   3. Download UCSCs BigWigToWig Tool: <br>
    a. Navigate to the UCSC Genome Browser Software directory: http://hgdownload.soe.ucsc.edu/admin/exe/ <br>
    b. Select your proper machine type <br>
@@ -88,7 +88,7 @@ We provide a small set of RDNVs (n = 25) as practice data. We recommend running 
 
 1.  A tab delimited list of RDNVs (“RDNV flat file”). <br>
 The practice RDNV flat file is: iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file.db 
-* The RDNV file should contain all identified de novo variants in all of your samples. 
+* The RDNV file should contain all identified *de novo* variants in all of your samples. 
 * The required columns are: Chr, Position, Ref, Alt, child_id, Info, genotype, genotype_subfields, and subfield_format. <br>
   * Note: The pipeline does not support periods or other non-alphanumeric characters in child_id. 
  
@@ -126,7 +126,7 @@ Example of VCF file:
    
 Usage:
 ```
-python calculate_abhet_collapsing_duplicates.py --vcf <vcf from which to calculate abhet> --output_dir <output_dir> [Optional: --variants, --samples_to_exclude_when_true] (The pipeline expects this to be "unrenamed PAR", i.e., sex chromosomes should be "X" and "Y".) (The pipeline expects this to be "unrenamed PAR", i.e., sex chromosomes should be "X" and "Y".)
+python calculate_abhet_collapsing_duplicates.py --vcf <vcf from which to calculate abhet> --output_dir <output_dir> [Optional: --variants, --samples_to_exclude_when_true] (The pipeline expects this to be "unrenamed PAR", i.e., sex chromosomes should be "X" and "Y".)
 ```
 Options: 
   
@@ -151,7 +151,7 @@ chr        pos        snp_id        ref        alt        gatk_abhet        manu
 **Step 1: Make a version of the RDNV flat file that the pipeline understands.** <br>
 Usage:
 ```
-bash makeOwnFlatDb.sh <input: standard flat file> <output: pipeline-specific flat file>
+bash makeOwnFlatDb.sh <input: RDNV flat file> <output: pipeline-specific flat file>
 ```
 
 Output:
@@ -162,7 +162,7 @@ Output:
 ```
 
 Description:
-This script creates a database from the RDNV flat file. The first step in creating an RDNV file that the annotation pipeline understands, is to remove the PAR annotation from the X & Y chromosome variants if these variants are labeled with ‘PAR’. This script then extracts columns of interest from the RDNV flat file (Columns: Chr, Position, Ref, Alt, child_id, subfield_format, genotype: genotype_subfields, Info) and outputs a tab-delimited file with 8 columns. If these columns do not exist, the script simply skips over them and creates an output file without these columns. This output file will be referenced by the data_config.sh script in Step 4.
+This script creates a database from the RDNV flat file. The first step in creating an RDNV file that the annotation pipeline understands, is to remove the PAR annotation from the X & Y chromosome variants if these variants are labeled with ‘PAR’. This script then extracts the required columns from the RDNV flat file (Columns: Chr, Position, Ref, Alt, child_id, subfield_format, genotype: genotype_subfields, Info) and outputs a tab-delimited file with 8 columns. Additional columns present in the RDNV flat file are ignored, and the required columns are organized into the proper format for the pipeline. This output file will be referenced by the data_config.sh script in Step 4.
  
 **Step 2: Create a Variant_ID for each variant.** <br>
 Usage:
@@ -251,7 +251,7 @@ This script annotates the Variant ID file with all ARC features and outputs the 
 **Step 7: Run testRF.py.** <br>
 Usage:
 ```
-python ~/Documents/GitHub_ARC/Scripts/testRF.py <input: .out file from annotation pipeline> <output: RDNV classification>
+python testRF.py <input: Annotated Variant ID file> <output: RDNV classification>
 ```
 
 * NB: Running this script on a large number of variants (we estimate >100,000 variants) can potentially crash your computer. If you think this might be an issue for you, use the preimputation.py script first and then run the above command with the skip_imputation argument. <br>
@@ -268,9 +268,9 @@ Output:
 ```
 
 Description:
-The script calculates the ARC score, labeled ARC_Score, for each variant and generates a single indexed list of ARC scores. We recommend selecting a threshold of 0.4. We consider variants with an ARC score of &lt;0.4 likely to be sequencing or cell line artifacts and a score of &ge;0.4 to be true de novo variants. This script generates your “classification output file” which is used in Step 8.
+The script calculates the ARC score, labeled ARC_Score, for each variant and generates a single indexed list of ARC scores. We recommend selecting a threshold of 0.4. We consider variants with an ARC score of &lt;0.4 likely to be sequencing or cell line artifacts and a score of &ge;0.4 to be true *de novo* variants. This script generates your “classification output file” which is used in Step 8.
  
-**Step 8: Recombine your Classification output file (output of Step 7) with your Variant ID file (output of Step 2).** <br>
+**Step 8: Recombine your RDNV Classification output file (output of Step 7) with your Variant ID file (output of Step 2).** <br>
 Usage:
 ```
 paste <(awk '{print $1}' <annotation input file>) <(awk 'BEGIN{OFS = '\t'; print "ARC_Score"} (NR != 1) {print $2}' <classification output file>) > <output file>

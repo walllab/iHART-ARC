@@ -74,14 +74,21 @@ The variants were identified using GATK (v3.2.2) and raw RDNVs were identified a
    ```
    bash Make_EncodeFile.sh <input: ENCODE file> <output_dir: Output dir>
    ```
+  6. Move the hg19_EncodeCaltechRnaSeqGm12878R2x75.txt file produced by the Make_EncodeFile.sh script to the Annotation_Source_Files directory
+
    **Download RepeatMasker sequence** <br>
    1. Navigate to the UCSC genome annotation database for the hg19 Human Reference Genome: http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/ 
    2. Download filename rmsk.txt.gz (“RMSK file”)
-   3. Convert the RMSK file into a format that is appropriate for the pipeline
+   3. Unzip the rmsk.txt.gz file
+   ```
+   gunzip rmsk.txt.gz
+   ```
+   4. Convert the unzipped RMSK file ("rmsk.txt") into a format that is appropriate for the pipeline
    Usage:
    ```
-   bash Make_RMSK.sh <input: RMSK file> <output_dir: Output dir>
+   bash Make_RMSK.sh <input: unzipped RMSK file> <output_dir: Output dir>
    ```
+   5. Move the hg19_rmsk.bed file produced by the Make_RMSK.sh script to the Annotation_Source_Files directory. 
    
 **Overview of the practice data** <br>
 We provide a small set of RDNVs (n = 25) as practice data. We recommend running both pipelines: the annotation pipeline followed by the classification pipeline, on these practice data before applying ARC to your own data. These practice data include two files: a list of RDNVs and a VCF.
@@ -126,7 +133,7 @@ Example of VCF file:
    
 Usage:
 ```
-python calculate_abhet_collapsing_duplicates.py --vcf <vcf from which to calculate abhet> --output_dir <output_dir> [Optional: --variants, --samples_to_exclude_when_true] (The pipeline expects this to be "unrenamed PAR", i.e., sex chromosomes should be "X" and "Y".)
+python calculate_abhet_collapsing_duplicates.py --vcf <VCF from which to calculate abhet> --output_dir <Output dir> [Optional: --variants, --samples_to_exclude_when_true] (The pipeline expects this to be "unrenamed PAR", i.e., sex chromosomes should be "X" and "Y".)
 ```
 Options: 
   
@@ -146,29 +153,40 @@ chr        pos        snp_id        ref        alt        gatk_abhet        manu
 ```
 
 **Run the annotation pipeline: Steps 1-4 prepare your input files by reformatting to pipeline compatible formats.** <br>
+   + We have provided an "Output" directory to help organize the output from the annotation and classification pipeline. 
    + If you run into issues at any point in the annotation pipeline, please feel free to check out our Issues.md page for solutions.<br>
    
 **Step 1: Make a version of the RDNV flat file that the pipeline understands.** <br>
-Usage:
-```
-bash makeOwnFlatDb.sh <input: RDNV flat file> <output: pipeline-specific flat file>
-```
 
-Output:
-```
-1        99034        T        G        AU1335302        GT:AB:AD:DP:GQ:PL        0/1:0.67:10,5:.:99:180,0,518        PASS;ABHet=0.694;ABHom=1;AC=2;AF=0;AN=4480;BaseQRankSum=1.49;DP=73656;ExcessHet=3.226;FS=0;InbreedingCoeff=-0.0075;MLEAC=2;MLEAF=0.0004378;MQ=52.6;MQ0=0;MQRankSum=0.225;NDA=5;QD=9.21;ReadPosRankSum=-1.091;SOR=0.523;VQSLOD=-4.97;VariantType=SNP;culprit=MQ;cytoBand=1p36.33;Func=ncRNA_intronic;Gene=RP11-34P13.7;genomicSuperDups=0.992727,chr1:235525;FATHMM_c=0.08231;FATHMM_nc=0.00333;CSQ=G|intron_variant&non_coding_transcript_variant|MODIFIER|RP11-34P13.7|ENSG00000238009|Transcript|ENST00000466430|lincRNA||2/3|ENST00000466430.1:n.264-6794A>C|||||||||-1|SNV|Clone_based_vega_gene||YES|||||||||||||||||||||||||||||||||||||||||
-1        12878589        GT        G        AU1905303        GT:AD:DP:GQ:PL        0/1:21,16:.:99:341,0,523        PASS;AC=1;AF=0;AN=4600;BaseQRankSum=-0.169;DP=66478;ExcessHet=3.0103;FS=2.937;InbreedingCoeff=-0.0001;MLEAC=1;MLEAF=0.0002133;MQ=58.02;MQ0=0;MQRankSum=-0.659;NDA=1;QD=7.51;ReadPosRankSum=0.751;SOR=1.197;VQSLOD=-1.155;VariantType=DELETION.NumRepetitions_6.EventLength_1.RepeatExpansion_T;culprit=FS;cytoBand=1p36.21;Func=intergenic;Gene=PRAMEF1,RP5-845O24.8;GeneDetail=21813,3959;genomicSuperDups=0.955807,chr1:13210222;CSQ=-|downstream_gene_variant|MODIFIER|RP5-845O24.8|ENSG00000228338|Transcript|ENST00000438401|lincRNA|||||||||||3959|-1|deletion|Clone_based_vega_gene||YES|||||||||||||||||||||||||||||||||||||||||
-3        194314892        C        CTGTCTG        AU0806302        GT:AD:DP:GQ:PL        0/1:9,5:.:99:222,0,402        PASS;AC=1;AF=0;AN=4582;BaseQRankSum=-0.413;DP=88579;ExcessHet=4.2252;FS=3.88;InbreedingCoeff=-0.0038;MLEAC=1;MLEAF=0.0002141;MQ=62.8;MQ0=0;MQRankSum=-0.945;NDA=2;NEGATIVE_TRAIN_SITE;QD=11.41;ReadPosRankSum=-0.083;SOR=1.508;VQSLOD=-0.9498;VariantType=INSERTION.NOVEL_6;culprit=FS;cytoBand=3q29;Func=intronic;Gene=TMEM44;CSQ=TGTCTG|intron_variant|MODIFIER|TMEM44|ENSG00000145014|Transcript|ENST00000392432|protein_coding||10/10|ENST00000392432.2:c.1318-5525_1318-5524insCAGACA|||||||||-1|insertion|HGNC|25120|YES|||CCDS54699.1|ENSP00000376227|TMM44_HUMAN|Q96I73_HUMAN|UPI00015E0940||||||||||||||||||||||||||||||||||
-```
+  **Part 1: Specify Gawk directory in makeOwnFlatDb.sh** <br>
+  ```
+  vi makeOwnFlatDb.sh
+  ```
 
-Description:
-This script creates a database from the RDNV flat file. The first step in creating an RDNV file that the annotation pipeline understands, is to remove the PAR annotation from the X & Y chromosome variants if these variants are labeled with ‘PAR’. This script then extracts the required columns from the RDNV flat file (Columns: Chr, Position, Ref, Alt, child_id, subfield_format, genotype: genotype_subfields, Info) and outputs a tab-delimited file with 8 columns. Additional columns present in the RDNV flat file are ignored, and the required columns are organized into the proper format for the pipeline. This output file will be referenced by the data_config.sh script in Step 4.
+  Set AWK variable (makeOwnFlatDb.sh, Line 3) to the absolute path of the Gawk software directory. <br>
+
+  ```
+  AWK="" #Insert absolute path to Gawk
+  ```
+  **Part 2: Run the makeOwnFlatDb.sh script** <br>
+  ```
+  bash makeOwnFlatDb.sh <input: RDNV flat file> <output_file: desired output file name and directory for pipeline-specific flat file>
+  ```
+
+  Output:
+  ```
+  1        99034        T        G        AU1335302        GT:AB:AD:DP:GQ:PL        0/1:0.67:10,5:.:99:180,0,518        PASS;ABHet=0.694;ABHom=1;AC=2;AF=0;AN=4480;BaseQRankSum=1.49;DP=73656;ExcessHet=3.226;FS=0;InbreedingCoeff=-0.0075;MLEAC=2;MLEAF=0.0004378;MQ=52.6;MQ0=0;MQRankSum=0.225;NDA=5;QD=9.21;ReadPosRankSum=-1.091;SOR=0.523;VQSLOD=-4.97;VariantType=SNP;culprit=MQ;cytoBand=1p36.33;Func=ncRNA_intronic;Gene=RP11-34P13.7;genomicSuperDups=0.992727,chr1:235525;FATHMM_c=0.08231;FATHMM_nc=0.00333;CSQ=G|intron_variant&non_coding_transcript_variant|MODIFIER|RP11-34P13.7|ENSG00000238009|Transcript|ENST00000466430|lincRNA||2/3|ENST00000466430.1:n.264-6794A>C|||||||||-1|SNV|Clone_based_vega_gene||YES|||||||||||||||||||||||||||||||||||||||||
+  1        12878589        GT        G        AU1905303        GT:AD:DP:GQ:PL        0/1:21,16:.:99:341,0,523        PASS;AC=1;AF=0;AN=4600;BaseQRankSum=-0.169;DP=66478;ExcessHet=3.0103;FS=2.937;InbreedingCoeff=-0.0001;MLEAC=1;MLEAF=0.0002133;MQ=58.02;MQ0=0;MQRankSum=-0.659;NDA=1;QD=7.51;ReadPosRankSum=0.751;SOR=1.197;VQSLOD=-1.155;VariantType=DELETION.NumRepetitions_6.EventLength_1.RepeatExpansion_T;culprit=FS;cytoBand=1p36.21;Func=intergenic;Gene=PRAMEF1,RP5-845O24.8;GeneDetail=21813,3959;genomicSuperDups=0.955807,chr1:13210222;CSQ=-|downstream_gene_variant|MODIFIER|RP5-845O24.8|ENSG00000228338|Transcript|ENST00000438401|lincRNA|||||||||||3959|-1|deletion|Clone_based_vega_gene||YES|||||||||||||||||||||||||||||||||||||||||
+  3        194314892        C        CTGTCTG        AU0806302        GT:AD:DP:GQ:PL        0/1:9,5:.:99:222,0,402        PASS;AC=1;AF=0;AN=4582;BaseQRankSum=-0.413;DP=88579;ExcessHet=4.2252;FS=3.88;InbreedingCoeff=-0.0038;MLEAC=1;MLEAF=0.0002141;MQ=62.8;MQ0=0;MQRankSum=-0.945;NDA=2;NEGATIVE_TRAIN_SITE;QD=11.41;ReadPosRankSum=-0.083;SOR=1.508;VQSLOD=-0.9498;VariantType=INSERTION.NOVEL_6;culprit=FS;cytoBand=3q29;Func=intronic;Gene=TMEM44;CSQ=TGTCTG|intron_variant|MODIFIER|TMEM44|ENSG00000145014|Transcript|ENST00000392432|protein_coding||10/10|ENST00000392432.2:c.1318-5525_1318-5524insCAGACA|||||||||-1|insertion|HGNC|25120|YES|||CCDS54699.1|ENSP00000376227|TMM44_HUMAN|Q96I73_HUMAN|UPI00015E0940||||||||||||||||||||||||||||||||||
+  ```
+
+  Description:
+  This script creates a database from the RDNV flat file. The first step in creating an RDNV file that the annotation pipeline understands, is to remove the PAR annotation from the X & Y chromosome variants if these variants are labeled with ‘PAR’. This script then extracts the required columns from the RDNV flat file (Columns: Chr, Position, Ref, Alt, child_id, subfield_format, genotype: genotype_subfields, Info) and outputs a tab-delimited file with 8 columns. Additional columns present in the RDNV flat file are ignored, and the required columns are organized into the proper format for the pipeline. This output file will be referenced by the data_config.sh script in Step 4.
  
 **Step 2: Create a Variant_ID for each variant.** <br>
 Usage:
 ```
-bash makeAnnotationInputFileFromOwnFlatDb.sh <input: pipeline-specific flat file> <output: annotation input
-file>
+bash makeAnnotationInputFileFromOwnFlatDb.sh <input: pipeline-specific flat file> <output_file: desired output file name and directory for annotation input file>
 ```
 
 Output:
@@ -185,7 +203,7 @@ This script outputs a tab delimited file with 2 columns, Variant_ID and Classifi
 **Step 3: Make a version of the ABHet file that the pipeline understands.** <br>
 Usage:
 ```
-bash makeOwnABHetFile.sh <input: ABHet file with 9 columns and header> <output: pipeline-specific ABHet
+bash makeOwnABHetFile.sh <input: ABHet file with 9 columns and header> <output_file: desired output file name and directory for pipeline-specific ABHet
 file>
 ```
 
@@ -218,7 +236,7 @@ vi setAnnotationEnv.sh
 IG_LIST="" #Absolute path to Human_immunoglobulin_genes_HGNClist.txt file provided in the Annotation_Source_Files directory
 GIAB="" #Absolute path to Genome_in_a_bottle_problematic_regions.bed file provided in the Annotation_Source_Files directory
 
-ANNOVAR="" #Absolute path path to your preferred perl installation followed by an absolute path to the table_annovar.pl script from ANNOVAR
+ANNOVAR="" #Absolute path path to your preferred perl installation followed by an absolute path to the table_annovar.pl script from ANNOVAR, separated by a space
 ANV_DIR=""; #Absolute path to Annotation_Source_Files directory
 AWK="" #Absolute path to Gawk software directory
 BED="" #Absolute path to BEDTools toolset directory 
@@ -231,7 +249,7 @@ The purpose of this step is to change the setAnnotationEnv.sh script to have abs
 **Step 6: Run the annotation pipeline.** <br>
 Usage:
 ```
-bash getAnnotation.sh <input: annotation input file (output of #2 above)> <output_dir: output dir for annotation .out and intermediate files>
+bash getAnnotation.sh <input: annotation input file (output of Step 2 above)> <output_dir: output dir for annotation .out and intermediate files>
 ```
 * Note: Be sure to provide absolute path to the annotation input file, since this absolute path is required by the getAnnotation.sh script. 
 * Note: This produces many intermediate files as well as a final .out file in the output directory.
@@ -251,12 +269,12 @@ This script annotates the Variant ID file with all ARC features and outputs the 
 **Step 7: Run testRF.py.** <br>
 Usage:
 ```
-python testRF.py <input: Annotated Variant ID file> <output: RDNV classification>
+python testRF.py <input: Annotated Variant ID file> <output_file: desired output file name and directory for RDNV classification>
 ```
 
 * NB: Running this script on a large number of variants (we estimate >100,000 variants) can potentially crash your computer. If you think this might be an issue for you, use the preimputation.py script first and then run the above command with the skip_imputation argument. <br>
       ```
-      python preimputation.py --input_annotation <input: Annotated Variant ID file (from Step 5)> <output: preimputed .out file from annotation pipeline>
+      python preimputation.py --input_annotation <input: Annotated Variant ID file (from Step 5)> <output_file: desired output file name and directory for preimputed .out file from annotation pipeline>
       ``` 
  
 Output:
@@ -273,7 +291,7 @@ The script calculates the ARC score, labeled ARC_Score, for each variant and gen
 **Step 8: Recombine your RDNV Classification output file (output of Step 7) with your Variant ID file (output of Step 2).** <br>
 Usage:
 ```
-paste <(awk '{print $1}' <annotation input file>) <(awk 'BEGIN{OFS = '\t'; print "ARC_Score"} (NR != 1) {print $2}' <classification output file>) > <output file>
+paste <(awk '{print $1}' <annotation input file>) <(awk 'BEGIN{OFS = '\t'; print "ARC_Score"} (NR != 1) {print $2}' <classification output file>) > <output_file: desired output file name and directory for Classification output file with Variant ID>
 ```
 
 Output:

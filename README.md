@@ -37,23 +37,36 @@ http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/, under filename h
 
 The variants were identified using GATK (v3.2.2) and raw RDNVs were identified as described in our [manuscript](https://www.biorxiv.org/content/early/2018/06/06/338855). 
  
-**Setup/How to get started:** <br>
+### Setup/How to get started: <br>
  **Step 1: Get the code** <br>
  
  Click on the green "Clone or Download" button on the top right hand corner. <br>
  
- **Option 1: Download** 
- 1. Select "Download Zip". <br>
- 2. Move this zipped folder to your desired folder. <br>
- 
- **Option 2: Clone** 
- 1. Copy the URL provided. <br>
- 2. Navigate to the directory where you would like to copy the repository using the command line. <br>
- 3. Clone the repository using the following command: <br>
+   **Option 1: Download** 
+   1. Select "Download Zip". <br>
+   2. Move this zipped folder to your desired folder. <br>
+
+   **Option 2: Clone** 
+   1. Copy the URL provided. <br>
+   2. Navigate to the directory where you would like to copy the repository using the command line. <br>
+   3. Clone the repository using the following command: <br>
+   ```
+   git clone <URL>
+   ```
+ **Step 2: Unzip Genome in a Bottle and Replication Timing Annotation Source files** <br>
+ 1. Navigate to the Annotation_Source_Files directory <br> 
  ```
- git clone <URL>
+ cd Annotation_Source_Files
  ```
- **Step 2: Download and Modify Additional Annotation Source files** <br>
+ 2. Unzip Genome in a Bottle file:
+ ```
+ gunzip Genome_in_a_bottle_problematic_regions.bed.gz
+ ```
+ 3. Unzip Replication Timing file:
+ ```
+ gunzip hg19_ReplicationTiming.txt.gz
+ ```
+ **Step 3: Download and Modify Additional Annotation Source files** <br>
   **Download Signal from ENCODE/Caltech GM12878 RNA-seq**
   1. Navigate to the UCSC Genome Browser directory that contains the downloadable files associated with this ENCODE composite track: http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeCaltechRnaSeq/
   2. Download filename wgEncodeCaltechRnaSeqGm12878R2x75Th1014Il200SigRep1V4.bigWig (“ENCODE file”)
@@ -124,7 +137,7 @@ Example of VCF file:
 3        194314892        .        C        CTGTCTG        159.72        PASS        AC=1;AF=0;AN=4582;BaseQRankSum=-0.413;DP=88579;ExcessHet=4.2252;FS=3.88;InbreedingCoeff=-0.0038;MLEAC=1;MLEAF=0.0002141;MQ=62.8;MQ0=0;MQRankSum=-0.945;NDA=2;NEGATIVE_TRAIN_SITE;QD=11.41;ReadPosRankSum=-0.083;SOR=1.508;VQSLOD=-0.9498;VariantType=INSERTION.NOVEL_6;culprit=FS;cytoBand=3q29;Func=intronic;Gene=TMEM44;CSQ=TGTCTG|intron_variant|MODIFIER|TMEM44|ENSG00000145014|Transcript|ENST00000392432|protein_coding||10/10|ENST00000392432.2:c.1318-5525_1318-5524insCAGACA|||||||||-1|insertion|HGNC|25120|YES|||CCDS54699.1|ENSP00000376227|TMM44_HUMAN|Q96I73_HUMAN|UPI00015E0940||||||||||||||||||||||||||||||||||        GT:AD:DP:GQ:PL        0/0:49,0:49:99:0,120,1800        0/0:41,0:41:99:0,111,1665        0/0:30,0:30:61:0,61,917        0/0:42,0:42:99:0,103,1321        0/0:37,0:37:69:0,69,1035        0/0:32,0:32:87:0,87,1305        0/1:9,5:.:99:222,0,402        0/0:33,0:33:65:0,65,963        0/0:26,0:26:61:0,61,819        0/0:27,0:27:60:0,60,811        0/0:22,0:22:60:0,60,900        0/0:33,0:33:81:0,81,1044        0/0:39,0:39:99:0,99,1258        0/0:48,0:48:99:0,108,1620        0/0:34,0:34:39:0,39,965        0/0:40,0:40:75:0,75,1125        0/0:29,0:29:52:0,52,853        0/0:36,0:36:64:0,64,1095        0/0:35,0:35:81:0,81,1215        0/0:50,0:50:99:0,108,1620        0/0:53,0:53:99:0,102,1530        0/0:40,0:40:84:0,84,1260        0/0:29,0:29:60:0,60,900        0/0:34,0:34:87:0,87,1305        0/0:39,0:39:87:0,87,1305 
 ```
 
-**Recalculate ABHet for all RDNVs:** <br>
+### Recalculate ABHet for all RDNVs: <br>
 
  **Purpose of ABHet recalculation:** <br>
  The ABHet annotation is not currently provided for indels by GATK. Using the ABHet formula (below), we manually calculate the ABHet value for all SNVs and indels. Critically, if your dataset includes duplicates or monozygotic twins, you should exclude one of the duplicates by providing a list of duplicate samples when recalculating ABHet. <br> 
@@ -144,7 +157,7 @@ Options:
 
 * Note: This script takes in one multi-sample VCF file with all chromosomes included. 
 
-Output:
+Output (*VCF_file_name*_with_abhet_recalculation.txt):
 ```
 chr        pos        snp_id        ref        alt        gatk_abhet        manual_abhet        samples_excluded        adjusted_abhet
 1        99034        .        T        G        0.694        0.667        NA        0.667
@@ -152,7 +165,7 @@ chr        pos        snp_id        ref        alt        gatk_abhet        manu
 3        194314892        .        C        CTGTCTG        None        0.643        NA        0.643
 ```
 
-**Run the annotation pipeline: Steps 1-4 prepare your input files by reformatting to pipeline compatible formats.** <br>
+### Run the annotation pipeline: Steps 1-4 prepare your input files by reformatting to pipeline compatible formats. <br>
    + We have provided an "Output" directory to help organize the output from the annotation and classification pipeline. 
    + If you run into issues at any point in the annotation pipeline, please feel free to check out our Issues.md page for solutions.<br>
    
@@ -265,7 +278,7 @@ Variant_ID        CLASSIFICATION        AbpartsTCR        DnaseUwdukeGm12878UniP
 Description:
 This script annotates the Variant ID file with all ARC features and outputs the final .out file along with other intermediate files in the output directory. The getAnnotation.sh script calls five other scripts: (1) setAnnotationEnv.sh, (2) getAnnotation.annovar.sh, (3) getAnnotation.gatk.sh, (4) getAnnotation.other.sh, and (5) getAnnotation.adjust.perSampleCounts.sh. It also recalculates the per-sample count columns as needed. This output file is the Annotated Variant ID file and is the input for Step 7. 
  
-**Run the classification pipeline:** <br>
+### Run the classification pipeline: <br>
 **Step 7: Run testRF.py.** <br>
 Usage:
 ```

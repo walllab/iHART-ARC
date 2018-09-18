@@ -16,4 +16,4 @@ then
 else
     Output_Dir=$Output_Dir
 fi
-awk 'BEGIN{OFS="\t";}{print $6,$7,$8,$12}' $RMSKFile > $Output_Dir/hg19_rmsk.txt;
+awk 'BEGIN{OFS="\t";}{print $6,$7,$8,$12}' $RMSKFile > $Output_Dir/hg19_rmsk.bed;

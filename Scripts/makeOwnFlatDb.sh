@@ -1,6 +1,6 @@
 #!/bin/bash
 
-AWK="$MAIN/programs/gawk-4.1.4/gawk" # Insert absolute bath to Gawk
+AWK="" #Insert absolute path to Gawk
 
 #Chr, Position, Ref, Alt, child_id, Info, genotype, genotype_subfields, and subfield_format
 cols_list="Chr,Position,Ref,Alt,child_id,Info,genotype,genotype_subfields,subfield_format"

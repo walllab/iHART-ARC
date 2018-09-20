@@ -267,7 +267,7 @@ bash getAnnotation.sh <input: annotation input file (output of Step 2 above)> <o
 * Note: Be sure to provide absolute path to the annotation input file, since this absolute path is required by the getAnnotation.sh script. 
 * Note: This produces many intermediate files as well as a final .out file in the output directory.
   
-Output (.out file):
+Output (annotation .out file):
 ```
 Variant_ID        CLASSIFICATION        AbpartsTCR        DnaseUwdukeGm12878UniPk        EncodeCaltechRnaSeqGm12878R2x75        RecombRate        ReplicationTiming        SimpleRepeat        Rmsk        SegDups        Top10multiallelic        SAMPLE_AD_REF        SAMPLE_AD_ALT        SAMPLE_DP        SAMPLE_GQ        SAMPLE_ADDP        DP        ABHet        ABHom        AN        BaseQRankSum        FS        InbreedingCoeff        MQ        MQRankSum        NDA        NEGATIVE_TRAIN_SITE        OND        POSITIVE_TRAIN_SITE        QD        ReadPosRankSum        SOR        VQSLOD        IG        Num_vars_in_IG        Num_vars_in_TCR_abparts        Trinucleotide_context        PCT_GC_content_100bp        All.simplerepeatsnocov        Decoy.bed        Superdupsmerged_all_sort        Systematic.Sequencing.Errors        VQSRv2.18_filterABQD_sorted        VQSRv2.18_filterAlign_sorted        VQSRv2.18_filterConflicting        VQSRv2.18_filterlt2Datasets        VQSRv2.18_filterMap        VQSRv2.18_filterSSE        Num_uncertain_regions        isIndel        isDnaseNA        isEncodeNA        isRecombRateNA        isReplicationTimingNA        isABHetNA        isABHomNA        isBaseQRankSumNA        isInbreedingNA        isMQRankSumNA        isReadPosRankSumNA        Num_SNV
 1.99034.T.G.AU1335302        TRUE        0        0        0        1.11575        NA        0.78        1        1        0        10        5        15        99        0.333333        73656        0.667        1        4480        1.49        0        -0.0075        52.6        0.225        5        0        0        0        9.21        -1.091        0.523        -4.97        0        0        0        AAT        0.148515        0        0        0        0        0        0        0        0        0        0        0        0        0        0        0        1        0        0        0        0        0        0        1
@@ -299,12 +299,12 @@ Output:
 ```
 
 Description:
-The script calculates the ARC score, labeled ARC_Score, for each variant and generates a single indexed list of ARC scores. We recommend selecting a threshold of 0.4. We consider variants with an ARC score of &lt;0.4 likely to be sequencing or cell line artifacts and a score of &ge;0.4 to be true *de novo* variants. This script generates your “classification output file” which is used in Step 8.
+The script calculates the ARC score, column name "ARC_Score", for each variant and generates a single indexed list of ARC scores. We recommend selecting a threshold of 0.4. We consider variants with an ARC score of &lt;0.4 likely to be sequencing or cell line artifacts and a score of &ge;0.4 to be true *de novo* variants. This script generates your “classification output file” which is used in Step 8.
  
-**Step 8: Recombine your RDNV Classification output file (output of Step 7) with your Variant ID file (output of Step 2).** <br>
+**Step 8: Recombine the ARC scores from your RDNV Classification output file (output of Step 7) with your Variant ID file (output of Step 2).** <br>
 Usage:
 ```
-paste <(awk '{print $1}' <annotation input file>) <(awk 'BEGIN{OFS = '\t'; print "ARC_Score"} (NR != 1) {print $2}' <classification output file>) > <output_file: desired output file name and directory for Classification output file with Variant ID>
+paste <(awk '{print $1}' <annotation .out file>) <(awk 'BEGIN{OFS = '\t'; print "ARC_Score"} (NR != 1) {print $2}' <classification output file>) > <output_file: desired output file name and directory for Classification output file with Variant ID>
 ```
 
 Output:

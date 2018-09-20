@@ -171,7 +171,7 @@ chr        pos        snp_id        ref        alt        gatk_abhet        manu
    
 **Step 1: Make a version of the RDNV flat file that the pipeline understands.** <br>
 
-  **Part 1: Specify Gawk directory in makeOwnFlatDb.sh** <br>
+  **Part 1: Specify Gawk directory in makeOwnFlatDb.sh (provided in the Scripts directory)** <br>
   ```
   vi makeOwnFlatDb.sh
   ```
@@ -235,8 +235,8 @@ This script reformats the recalculated ABHet file with 9 columns into an ABHet f
 vi data_config.sh
 ```
 ```
-FLAT= # Absolute path to iHART_25_denovo_variants_ARC_practice_data_RDNV_flat_file_OwnFlatDb.db
-ABHET= # Absolute path to iHART_25_denovo_variants_ARC_practice_data _abhet_recalculation_OwnABHet.txt
+FLAT= # Absolute path to pipeline-specific RDNV flat file (output of Step 1)
+ABHET= # Absolute path to pipeline-specific ABHet file (output of Step 3)
 ```
 Description:
 The purpose of this step is to change the data_config.sh script to have absolute paths to the pipeline formatted RDNV flat file and the pipeline formatted ABHet file. The data_config.sh script is called within the setAnnotationEnv.sh script which is part of the getAnnotation.sh script in Step 6. 

@@ -302,7 +302,7 @@ Output:
 Description:
 The script calculates the ARC score, column name "ARC_Score", for each variant and generates a single indexed list of ARC scores. We recommend selecting a threshold of 0.4. We consider variants with an ARC score of &lt;0.4 likely to be sequencing or cell line artifacts and a score of &ge;0.4 to be true *de novo* variants. This script generates your “classification output file” which is used in Step 8.
  
-**Step 8: Recombine the ARC scores from your RDNV Classification output file (output of Step 7) with your Variant ID file (output of Step 2).** <br>
+**Step 8: Recombine the ARC scores from your RDNV Classification output file (output of Step 7) with your Variant ID file (output of Step 6).** <br>
 Usage:
 ```
 paste <(awk '{print $1}' <annotation .out file>) <(awk 'BEGIN{OFS = '\t'; print "ARC_Score"} (NR != 1) {print $2}' <classification output file>) > <output_file: desired output file name and directory for Classification output file with Variant ID>

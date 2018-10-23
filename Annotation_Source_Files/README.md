@@ -63,7 +63,7 @@ http://rohsdb.cmb.usc.edu/GBshape/cgi-bin/hgTables?db=hg19&hgta_group=map&hgta_t
 **Description:** <br>
 Binary variable indicating that the variant intersects a RepeatMasker sequence <br>
 **Source:** UCSC Genome Browser <br>
-http://rohsdb.cmb.usc.edu/GBshape/cgi-bin/hgTables? db=hg19&hgta_group=map&hgta_track=rmsk&hgta_table=rmsk&hgta_doSchema=describe+table+schema <br>
+http://rohsdb.cmb.usc.edu/GBshape/cgi-bin/hgTables?%20db=hg19&hgta_group=map&hgta_track=rmsk&hgta_table=rmsk&hgta_doSchema=describe+table+schema <br>
 
 **File:** hg19_EncodeCaltechRnaSeqGm12878R2x75.txt <br>
 **Feature Name(s):** Transcription in LCL <br>

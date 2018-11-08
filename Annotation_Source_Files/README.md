@@ -77,8 +77,7 @@ Below is a table providing the ranking, name, metric type, description, and sour
 
 | RFECV_Ranking| Current figure name| Metric type| Description| Reference|
 | --- | --- | --- | --- | --- |
-| 1| Number of de novo (DN) SNVs| Sample| Number of rare de novo single nucleotide variants called in this sample| "De novo single nucleotide variants identified, as described in ""Inheritance classifications"" (Methods), and absent in|
-| the publicly available databases, UCLA internal controls, and Healthy Non-Phaseable (HNP) samples (Methods). "|
+| 1| Number of de novo (DN) SNVs| Sample| Number of rare de novo single nucleotide variants called in this sample| "De novo single nucleotide variants identified, as described in ""Inheritance classifications"" (Methods), and absent in the publicly available databases, UCLA internal controls, and Healthy Non-Phaseable (HNP) samples (Methods). "|
 | 1| Sample ALT AD to DP ratio| Variant by sample| Ratio of alt allele depth to total depth in this sample| GATK|
 | 1| ABHet| Variant by cohort| Ratio of ref allele reads to all reads, heterozygotes only| GATK|
 | 1| Quality by depth (QD)| Variant by cohort| Ratio of GATK QUAL score to total depth among samples having the alt allele| GATK|

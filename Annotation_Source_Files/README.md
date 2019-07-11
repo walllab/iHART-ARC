@@ -70,6 +70,8 @@ http://rohsdb.cmb.usc.edu/GBshape/cgi-bin/hgTables?%20db=hg19&hgta_group=map&hgt
 **Description:** <br>
 Signal from ENCODE/Caltech GM12878 RNA-seq <br>
 **Source:** UCSC Genome Browser <br>
+http://rohsdb.cmb.usc.edu/GBshape/cgi-bin/hgTables?db=hg19&hgta_group=map&hgta_track=wgEncodeCaltechRnaSeqGm12878R2x75Th1014Il200SigRep1V4&hgta_table=wgEncodeCaltechRnaSeqGm12878R2x75Th1014Il200SigRep1V4&hgta_doSchema=describe+table+schema
+
 ## Detailed List of Annotations
 Below is a table providing the ranking, name, metric type, description, and source of each variant annotation. <br>
 

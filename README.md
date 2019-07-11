@@ -9,7 +9,7 @@ Artifact Removal by Classifier (ARC) is a supervised random forest model designe
 **Background/Overview:** <br>
 ARC was developed and published as part of the iHART project; please reference our [manuscript](https://www.biorxiv.org/content/early/2018/06/06/338855) for full details. We trained ARC on RDNVs identified in 76 pairs of fully phase-able monozygotic (MZ) twins with whole-genome sequence (WGS) data derived from LCL DNA, using 48 features representing intrinsic genomic properties, (e.g., GC content and properties associated with *de novo* hotspots), sample specific properties (e.g., genome-wide number of *de novo* SNVs), signatures of transformation of peripheral B lymphocytes by Epstein-Barr virus (e.g., number of *de novo* SNVs in immunoglobulin genes), or variant properties (e.g., GATK variant metrics). We subsequently tested ARC on RDNVs identified in 17 fully phase-able whole blood (WB) and matched LCL samples with WGS data. The resulting random forest classifier achieved an area under the receiver operating characteristic (ROC) curve of 0.99 and 0.98 in the training and test set, respectively. We selected a conservative ARC score threshold (0.4) that achieved a minimum precision and recall rate of &gt;0.9 and ~0.8, respectively, across all 10-folds of the training set cross validation; and achieved a precision and recall rate of &gt;0.9 and &gt;0.8, respectively, in the test set.
  
-![PanelA](https://imgur.com/zRZgtrZ.png)
+Testing Adding Image
 
 **Pipelines:** <br>
 There are two pipelines required for ARC (both contained within this repository):
